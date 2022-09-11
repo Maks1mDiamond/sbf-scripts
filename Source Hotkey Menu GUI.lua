@@ -486,12 +486,12 @@ UIS.InputBegan:Connect(function(key, isChatting)
     end
 end)
 
-local itemGiversFolder = game.Workspace.ItemGiver
+local itemGiversFolder = game.Workspace:FindFirstChild("ItemGivers")
 local function itemGiver(v, var)
     if adminPerms then
-        reps.Req:InvokeServer("RunCommand", "give me "..v)
+        reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..v)
     else
-        --[[ my brain hurts
+        --[[ my brain hurts so i just wiped whole part of the script
         if v == "PoolNoodle" then
             poolNoodles(itemGiversFolder, var)
         else
@@ -645,7 +645,7 @@ local function hotkeyGiver(v)
         if v == k1 then
             itemGiver("radiated fries")
         elseif v == k2 then
-
+            itemGiver("dango")
         elseif v == k3 then
 
         elseif v == k4 then
