@@ -188,7 +188,7 @@ if adminPerms then
 else
     genmenu("main", "Regular Tools", "Useful Tools")
 end
-genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "FumoFest")
+genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "Event", "FumoFest")
 
 
 
@@ -202,7 +202,9 @@ genmenu("toolsR3", "FIREWORKS LAUNCHER!!!!!!", "Microwave", "dwaggy plushie", "l
 
 genmenu("toolsR4", "Roomba", "Boat", "chair", "Bike", "Gokart", "Motorbike", "Wheeliebike")
 
-genmenu("toolsR5", "radiated fries") -- wip
+genmenu("toolsR5", "Red PoolNoodle", "Blue PoolNoodle")
+
+genmenu("toolsR6", "radiated fries") -- wip
 
 
 
@@ -374,6 +376,15 @@ local function toolsR5Menu()
     tweenAnim(appear)
     db = false
 end
+local function toolsR6Menu()
+    if db then return end
+    db = true
+    tweenAnim(disappear)
+    gui.rtools.Visible = false
+    gui.toolsR6.Visible = true
+    tweenAnim(appear)
+    db = false
+end
 
 
 
@@ -398,6 +409,7 @@ local function atoolsMenu()
 end
 
 UIS.InputBegan:Connect(function(key, isChatting)
+    if gui == nil then return end
     if isChatting then return end
     if key.KeyCode == k0 then
         local function checkvisibility()
@@ -423,7 +435,8 @@ UIS.InputBegan:Connect(function(key, isChatting)
         gui.toolsR2.Visible or gui.toolsR2P2.Visible or
         gui.toolsR3.Visible or
         gui.toolsR4.Visible or
-        gui.toolsR5.Visible then
+        gui.toolsR5.Visible or
+        gui.toolsR6.Visible then
             toolsMenu()
         end
     elseif key.KeyCode == k1 then
@@ -453,7 +466,9 @@ UIS.InputBegan:Connect(function(key, isChatting)
             toolsR5Menu()
         end
     elseif key.KeyCode == k6 then
-
+        if gui.rtools.Visible then
+            toolsR6Menu()
+        end
     elseif key.KeyCode == k7 then
 
     elseif key.KeyCode == k8 then
@@ -471,11 +486,17 @@ UIS.InputBegan:Connect(function(key, isChatting)
     end
 end)
 
-local function itemGiver(v)
+local itemGiversFolder = game.Workspace.ItemGiver
+local function itemGiver(v, var)
     if adminPerms then
         reps.Req:InvokeServer("RunCommand", "give me "..v)
     else
-        local cd = game.Workspace.ItemGivers[v].Giver:FindFirstChild("ClickDetector")
+        --[[ my brain hurts
+        if v == "PoolNoodle" then
+            poolNoodles(itemGiversFolder, var)
+        else
+        ]]
+        local cd = itemGiversFolder[v].Giver:FindFirstChild("ClickDetector")
         fireclickdetector(cd)
     end
 end
@@ -602,6 +623,26 @@ local function hotkeyGiver(v)
         end
     elseif gui.toolsR5.Visible then
         if v == k1 then
+            --itemGiver("PoolNoodle", "red")
+        elseif v == k2 then
+            --itemGiver("PoolNoodle", "blue")
+        elseif v == k3 then
+
+        elseif v == k4 then
+
+        elseif v == k5 then
+
+        elseif v == k6 then
+
+        elseif v == k7 then
+
+        elseif v == k8 then
+
+        elseif v == k9 then
+
+        end
+    elseif gui.toolsR6.Visible then
+        if v == k1 then
             itemGiver("radiated fries")
         elseif v == k2 then
 
@@ -663,6 +704,7 @@ local function hotkeyGiver(v)
     end
 end
 UIS.InputBegan:Connect(function(key, isChatting)
+    if gui == nil then return end
     if isChatting then return end
     if key.KeyCode == k1 then
         hotkeyGiver(k1)
