@@ -10,12 +10,9 @@ local mat = Enum.Material.SmoothPlastic
 
 local debug = false
 
-
-
 local startTime = os.clock()
 local function optimize(a)
     for _, v in next, a:GetDescendants() do
-        -- DECALS
         if v:IsA("Decal") or v:IsA("Texture") then
             if remove_tex then
                 if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
@@ -25,8 +22,6 @@ local function optimize(a)
                     end
                 end
             end
-
-            -- PARTS
         elseif v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("WedgePart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
             if change_mat then
                 if v.Material ~= mat and v.Material ~= Enum.Material.Neon then
@@ -36,8 +31,6 @@ local function optimize(a)
                     end
                 end
             end
-
-            -- MESHPARTS
         elseif v:IsA("MeshPart") then
             if remove_tex then
                 if v.TextureID ~= "" then
@@ -55,8 +48,6 @@ local function optimize(a)
                     end
                 end
             end
-
-            -- SPECIALMESH
         elseif v:IsA("SpecialMesh") and v.TextureId then
             if remove_tex then
                 v.TextureId = ""
@@ -84,7 +75,6 @@ for i, r in next, workspace:GetChildren() do
     optimize(r)
 end
 
--- there goes the terrain stuff
 local terraria = workspace:FindFirstChild("Terrain")
 terraria.WaterReflectance = 0
 terraria.WaterWaveSize = 0
@@ -93,7 +83,6 @@ terraria.WaterWaveSpeed = 0
 local deltaTime = os.clock() - startTime
 print(("Finished cleaning up everything, took %.2f seconds"):format(deltaTime))
 
--- im about to have stroke
 plr.PlayerAdded:Connect(function(pplr)
     if exclude_players then
         return
