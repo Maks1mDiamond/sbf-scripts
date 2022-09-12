@@ -16,7 +16,7 @@ local function optimize(a)
         if v:IsA("Decal") or v:IsA("Texture") then
             if remove_tex then
                 if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" and
-                v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Texture ~= "rbxassetid://6239836016" then
+                v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Parent.Name ~= "EyeShinePart" then
                     v:Destroy()
                     if debug then
                         print(v.ClassName .. " | " .. v.Name, "| has been destroyed")
