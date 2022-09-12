@@ -702,41 +702,45 @@ local function hotkeyGiver(v)
         end
     end
 end
+--UIS.InputBegan:Connect(function(key, isChatting)
 local function menuGiver(key, isChatting)
     if isChatting then return end
-    if db then return end
-    if key.KeyCode == k1 then
-        hotkeyGiver(k1)
-    elseif key.KeyCode == k2 then
-        hotkeyGiver(k2)
-    elseif key.KeyCode == k3 then
-        hotkeyGiver(k3)
-    elseif key.KeyCode == k4 then
-        hotkeyGiver(k4)
-    elseif key.KeyCode == k5 then
-        hotkeyGiver(k5)
-    elseif key.KeyCode == k6 then
-        hotkeyGiver(k6)
-    elseif key.KeyCode == k7 then
-        hotkeyGiver(k7)
-    elseif key.KeyCode == k8 then
-        hotkeyGiver(k8)
-    elseif key.KeyCode == k9 then
-        hotkeyGiver(k9)
-    end
+    --if gui ~= nil then
+        if key.KeyCode == k1 then
+            hotkeyGiver(k1)
+        elseif key.KeyCode == k2 then
+            hotkeyGiver(k2)
+        elseif key.KeyCode == k3 then
+            hotkeyGiver(k3)
+        elseif key.KeyCode == k4 then
+            hotkeyGiver(k4)
+        elseif key.KeyCode == k5 then
+            hotkeyGiver(k5)
+        elseif key.KeyCode == k6 then
+            hotkeyGiver(k6)
+        elseif key.KeyCode == k7 then
+            hotkeyGiver(k7)
+        elseif key.KeyCode == k8 then
+            hotkeyGiver(k8)
+        elseif key.KeyCode == k9 then
+            hotkeyGiver(k9)
+        end
+    --end
 end
+--end)
 UIS.InputBegan:Connect(function(key, isChatting)
     if gui ~= nil then
-        menuSwitch(key, isChatting)
         menuGiver(key, isChatting)
+        menuSwitch(key, isChatting)
     end
 end)
 
 -- self destruction
 UIS.InputBegan:Connect(function(key, isChatting)
-    if gui == nil then return end
-    if isChatting then return end
-    if key.KeyCode == Enum.KeyCode.PageDown then
-        gui:Destroy()
+    if gui ~= nil then
+        if isChatting then return end
+        if key.KeyCode == Enum.KeyCode.PageDown then
+            gui:Destroy()
+        end
     end
 end)
