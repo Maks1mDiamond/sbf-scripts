@@ -1,5 +1,10 @@
 local plr = game.Players.LocalPlayer
 local plrgui = plr.PlayerGui
+task.wait(1)
+local chr = plr.Character
+plr.CharacterAdded:Connect(function(character)
+	chr = character
+end)
 
 local strgui = game:GetService("StarterGui")
 local UIS = game:GetService("UserInputService")
@@ -192,8 +197,8 @@ genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "Event", "FumoFest")
 
 
 
-genmenu("toolsR1", "pizzer", "FriedRice", "Watermelon", "borgir", "yuyuletics", "IceCream", "chiru", "pep", "- Page 1 >")
-genmenu("toolsR1P2", "choccy milk", "soder", "", "", "", "", "", "", "< Page 2 -")
+genmenu("toolsR1", "pizzer", "FriedRice", "cofe", "borgir", "yuyuletics", "IceCream", "chiru", "pep", "- Page 1 >")
+genmenu("toolsR1P2", "choccy milk", "soder", "Watermelon", "", "", "", "", "", "< Page 2 -")
 
 genmenu("toolsR2", "DESCENSIONIST", "PoolNoodle", "GravityGun", "PortalGun", "BoomboxGun", "Lightning Cannon", "the pan", "lcv2", "- Page 1 >")
 genmenu("toolsR2P2", "Yamato", "Prototype", "RocketLauncher", "Banana", "ClassicTrowel", "", "", "", "< Page 2 -")
@@ -506,7 +511,10 @@ local function hotkeyGiver(v)
         elseif v == k2 then
             itemGiver("FriedRice")
         elseif v == k3 then
-            itemGiver("Watermelon")
+            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:WaitForChild("BaseClickBox").ClickDetector
+		    task.wait(.5)
+		    plr.Backpack.mug.Parent = chr
+		    fireclickdetector(cofe)
         elseif v == k4 then
             itemGiver("borgir")
         elseif v == k5 then
@@ -526,7 +534,7 @@ local function hotkeyGiver(v)
         elseif v == k2 then
             itemGiver("soder")
         elseif v == k3 then
-
+            itemGiver("Watermelon")
         elseif v == k4 then
 
         elseif v == k5 then
@@ -702,32 +710,29 @@ local function hotkeyGiver(v)
         end
     end
 end
---UIS.InputBegan:Connect(function(key, isChatting)
 local function menuGiver(key, isChatting)
     if isChatting then return end
-    --if gui ~= nil then
-        if key.KeyCode == k1 then
-            hotkeyGiver(k1)
-        elseif key.KeyCode == k2 then
-            hotkeyGiver(k2)
-        elseif key.KeyCode == k3 then
-            hotkeyGiver(k3)
-        elseif key.KeyCode == k4 then
-            hotkeyGiver(k4)
-        elseif key.KeyCode == k5 then
-            hotkeyGiver(k5)
-        elseif key.KeyCode == k6 then
-            hotkeyGiver(k6)
-        elseif key.KeyCode == k7 then
-            hotkeyGiver(k7)
-        elseif key.KeyCode == k8 then
-            hotkeyGiver(k8)
-        elseif key.KeyCode == k9 then
-            hotkeyGiver(k9)
-        end
-    --end
+    if key.KeyCode == k1 then
+        hotkeyGiver(k1)
+    elseif key.KeyCode == k2 then
+        hotkeyGiver(k2)
+    elseif key.KeyCode == k3 then
+        hotkeyGiver(k3)
+    elseif key.KeyCode == k4 then
+        hotkeyGiver(k4)
+    elseif key.KeyCode == k5 then
+        hotkeyGiver(k5)
+    elseif key.KeyCode == k6 then
+        hotkeyGiver(k6)
+    elseif key.KeyCode == k7 then
+        hotkeyGiver(k7)
+    elseif key.KeyCode == k8 then
+        hotkeyGiver(k8)
+    elseif key.KeyCode == k9 then
+        hotkeyGiver(k9)
+    end
 end
---end)
+
 UIS.InputBegan:Connect(function(key, isChatting)
     if gui ~= nil then
         menuGiver(key, isChatting)
