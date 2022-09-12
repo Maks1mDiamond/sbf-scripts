@@ -512,6 +512,7 @@ local function hotkeyGiver(v)
             itemGiver("FriedRice")
         elseif v == k3 then
             local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:WaitForChild("BaseClickBox").ClickDetector
+            itemGiver("mug")
 		    task.wait(.5)
 		    plr.Backpack.mug.Parent = chr
 		    fireclickdetector(cofe)
