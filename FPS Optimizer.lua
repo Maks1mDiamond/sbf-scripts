@@ -7,6 +7,7 @@ local faceless = false
 
 local change_mat = true
 local remove_tex = true
+local remove_mesh = false
 local mat = Enum.Material.SmoothPlastic
 
 local debug = false
@@ -59,12 +60,28 @@ local function optimize(a)
                     end
                 end
             end
+            if remove_mesh then
+                if v.MeshId ~= "" then
+                    v.MeshId = ""
+                    if debug then
+                        print(v.ClassName .. " | " .. v.Name, "| removed MeshId")
+                    end
+                end
+            end
         elseif v:IsA("SpecialMesh") and v.TextureId then
             if remove_tex then
                 v.TextureId = ""
 
                 if debug then
                     print(v.ClassName .. " | " .. v.Name, "| removed TextureId")
+                end
+            end
+            if remove_mesh then
+                if v.MeshId ~= "" then
+                    v.MeshId = ""
+                    if debug then
+                        print(v.ClassName .. " | " .. v.Name, "| removed MeshId")
+                    end
                 end
             end
         end
