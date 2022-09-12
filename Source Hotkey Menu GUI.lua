@@ -725,9 +725,10 @@ local function menuGiver(key, isChatting)
     end
 end
 UIS.InputBegan:Connect(function(key, isChatting)
-    if gui == nil then return end
-    menuSwitch(key, isChatting)
-    menuGiver(key, isChatting)
+    if gui ~= nil then
+        menuSwitch(key, isChatting)
+        menuGiver(key, isChatting)
+    end
 end)
 
 -- self destruction
