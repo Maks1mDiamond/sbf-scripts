@@ -108,6 +108,7 @@ for i, v in ipairs(plr:GetPlayers()) do
             print(v.Name, "chr applied")
         end
     end
+    fard()
     --[[if exclude_localplayer then
         if v ~= locplr then
             fard()
