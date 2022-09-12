@@ -66,12 +66,14 @@ for i, r in next, workspace:GetChildren() do
         if r:IsA("Highlight") and r.Name == "Players" then
             return
         end
+    --[[
     elseif exclude_localplayer then
         if r:IsA("Highlight") and r.Name == "Players" then
             if r:FindFirstChild(locplr.Name) then
                 return
             end
         end
+    ]]
     end
     optimize(r)
 end
