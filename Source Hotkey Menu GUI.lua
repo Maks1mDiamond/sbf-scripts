@@ -409,7 +409,6 @@ local function atoolsMenu()
 end
 
 local function menuSwitch(key, isChatting)
-    if gui == nil then return end
     if isChatting then return end
     if key.KeyCode == k0 then
         local function checkvisibility()
@@ -704,7 +703,6 @@ local function hotkeyGiver(v)
     end
 end
 local function menuGiver(key, isChatting)
-    if gui == nil then return end
     if isChatting then return end
     if key.KeyCode == k1 then
         hotkeyGiver(k1)
@@ -727,6 +725,7 @@ local function menuGiver(key, isChatting)
     end
 end
 UIS.InputBegan:Connect(function(key, isChatting)
+    if gui == nil then return end
     menuSwitch(key, isChatting)
     menuGiver(key, isChatting)
 end)
