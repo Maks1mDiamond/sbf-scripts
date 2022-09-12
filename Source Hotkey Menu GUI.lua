@@ -704,6 +704,7 @@ local function hotkeyGiver(v)
 end
 local function menuGiver(key, isChatting)
     if isChatting then return end
+    if db then return end
     if key.KeyCode == k1 then
         hotkeyGiver(k1)
     elseif key.KeyCode == k2 then
