@@ -192,11 +192,11 @@ genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "Event", "FumoFest")
 
 
 
-genmenu("toolsR1", "pizzer", "FriedRice", "Watermelon", "borgir", "yuyuletics", "IceCream", "chiru", "pep", "| Page 1 >") -- page 2 test
-genmenu("toolsR1P2", "choccy milk", "soder", "", "", "", "", "", "", "< Page 2 |")
+genmenu("toolsR1", "pizzer", "FriedRice", "Watermelon", "borgir", "yuyuletics", "IceCream", "chiru", "pep", "- Page 1 >")
+genmenu("toolsR1P2", "choccy milk", "soder", "", "", "", "", "", "", "< Page 2 -")
 
-genmenu("toolsR2", "DESCENSIONIST", "PoolNoodle", "GravityGun", "PortalGun", "BoomboxGun", "Lightning Cannon", "the pan", "lcv2", "| Page 1 >")
-genmenu("toolsR2P2", "Yamato", "Prototype", "RocketLauncher", "Banana", "ClassicTrowel", "", "", "", "< Page 2 |")
+genmenu("toolsR2", "DESCENSIONIST", "PoolNoodle", "GravityGun", "PortalGun", "BoomboxGun", "Lightning Cannon", "the pan", "lcv2", "- Page 1 >")
+genmenu("toolsR2P2", "Yamato", "Prototype", "RocketLauncher", "Banana", "ClassicTrowel", "", "", "", "< Page 2 -")
 
 genmenu("toolsR3", "FIREWORKS LAUNCHER!!!!!!", "Microwave", "dwaggy plushie", "life jacket", "YuyuOnionRing", "Petition", "ClownpieceRocket", "Fishing Rod", "Bucket")
 
@@ -408,7 +408,7 @@ local function atoolsMenu()
     db = false
 end
 
-UIS.InputBegan:Connect(function(key, isChatting)
+local function menuSwitch(key, isChatting)
     if gui == nil then return end
     if isChatting then return end
     if key.KeyCode == k0 then
@@ -484,7 +484,7 @@ UIS.InputBegan:Connect(function(key, isChatting)
             toolsR2Menu()
         end
     end
-end)
+end
 
 local itemGiversFolder = game.Workspace:FindFirstChild("ItemGivers")
 local function itemGiver(v, var)
@@ -703,7 +703,7 @@ local function hotkeyGiver(v)
         end
     end
 end
-UIS.InputBegan:Connect(function(key, isChatting)
+local function menuGiver(key, isChatting)
     if gui == nil then return end
     if isChatting then return end
     if key.KeyCode == k1 then
@@ -724,5 +724,18 @@ UIS.InputBegan:Connect(function(key, isChatting)
         hotkeyGiver(k8)
     elseif key.KeyCode == k9 then
         hotkeyGiver(k9)
+    end
+end
+UIS.InputBegan:Connect(function(key, isChatting)
+    menuSwitch(key, isChatting)
+    menuGiver(key, isChatting)
+end)
+
+-- self destruction
+UIS.InputBegan:Connect(function(key, isChatting)
+    if gui == nil then return end
+    if isChatting then return end
+    if key.KeyCode == Enum.KeyCode.PageDown then
+        gui:Destroy()
     end
 end)
