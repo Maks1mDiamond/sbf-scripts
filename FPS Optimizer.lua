@@ -3,6 +3,7 @@ local plr = game.Players
 
 local exclude_players = false
 --local exclude_localplayer = true
+local faceless = false
 
 local change_mat = true
 local remove_tex = true
@@ -15,11 +16,20 @@ local function optimize(a)
     for _, v in next, a:GetDescendants() do
         if v:IsA("Decal") or v:IsA("Texture") then
             if remove_tex then
-                if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" and
-                v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Parent.Name ~= "EyeShinePart" then
+                local function purge()
                     v:Destroy()
                     if debug then
                         print(v.ClassName .. " | " .. v.Name, "| has been destroyed")
+                    end
+                end
+                if faceless ~= true then
+                    if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" and
+                    v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Parent.Name ~= "EyeShinePart" then
+                        purge()
+                    end
+                else
+                    if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
+                        purge()
                     end
                 end
             end
