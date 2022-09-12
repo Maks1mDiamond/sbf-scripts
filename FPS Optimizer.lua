@@ -15,7 +15,7 @@ local function optimize(a)
     for _, v in next, a:GetDescendants() do
         if v:IsA("Decal") or v:IsA("Texture") then
             if remove_tex then
-                if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" or
+                if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" and
                 v.Name ~= "Eyes" or v.Name ~= "Mouth" or v.Name ~= "EyeBrows" or v.Texture ~= "rbxassetid://6239836016" then
                     v:Destroy()
                     if debug then
