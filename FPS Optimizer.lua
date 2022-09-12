@@ -100,8 +100,8 @@ plr.PlayerAdded:Connect(function(pplr)
     if exclude_players then
         return
     end
-    task.wait(0.5)
-    optimize(pplr.Character)
+    task.wait(2)
+    optimize(pplr.CharacterAdded)
 end)
 for i, v in ipairs(plr:GetPlayers()) do
     if exclude_players then
