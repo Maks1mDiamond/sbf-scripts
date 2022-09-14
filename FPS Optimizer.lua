@@ -8,6 +8,7 @@ local faceless = false
 local change_mat = true
 local remove_tex = true
 local remove_mesh = false
+local remove_particles = false
 local mat = Enum.Material.SmoothPlastic
 
 local debug = false
@@ -83,6 +84,10 @@ local function optimize(a)
                         print(v.ClassName .. " | " .. v.Name, "| removed MeshId")
                     end
                 end
+            end
+        elseif v:IsA("ParticleEmitter") then
+            if remove_particles then
+                v:Destroy()
             end
         end
     end
