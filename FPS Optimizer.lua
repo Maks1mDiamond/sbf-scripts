@@ -122,8 +122,8 @@ plr.PlayerAdded:Connect(function(pplr)
     if exclude_players then
         return
     end
-    task.wait(2)
-    optimize(pplr.CharacterAdded)
+    task.wait(5)
+    optimize(pplr.Character)
 end)
 for i, v in ipairs(plr:GetPlayers()) do
     if exclude_players then
@@ -133,11 +133,9 @@ for i, v in ipairs(plr:GetPlayers()) do
         v.CharacterAdded:Connect(function(chr)
             task.wait(0.5)
             optimize(chr)
-            print(chr.ClassName, chr.Name, "chr added")
         end)
         if v.Character then
             optimize(v)
-            print(v.Name, "chr applied")
         end
     end
     fard()
