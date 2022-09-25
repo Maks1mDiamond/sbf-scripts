@@ -723,11 +723,9 @@ end)
 UIS.InputBegan:Connect(function(key, isChatting)
     if gui ~= nil then
         if isChatting then return end
-        if key.KeyCode == Enum.KeyCode.PageUp then
+        if key.KeyCode == Enum.KeyCode.PageDown then
+            k0,k1,k2,k3,k4,k5,k6,k7,k8,k9 = nil,nil,nil,nil,nil,nil,nil,nil,nil,nil
             gui:Destroy()
-            return
-        elseif key.KeyCode == Enum.KeyCode.PageDown then
-            script:Destroy()
         end
     end
 end)
