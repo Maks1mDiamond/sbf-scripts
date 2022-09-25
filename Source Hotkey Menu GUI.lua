@@ -728,7 +728,7 @@ UIS.InputBegan:Connect(function(key, isChatting)
             gui:Destroy()
             return
         elseif key.KeyCode == Enum.KeyCode.PageDown then
-            script:Gestroy()
+            script:Destroy()
         end
     end
 end)
