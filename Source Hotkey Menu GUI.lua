@@ -207,14 +207,14 @@ genmenu("toolsR3", "FIREWORKS LAUNCHER!!!!!!", "Microwave", "dwaggy plushie", "l
 
 genmenu("toolsR4", "Roomba", "Boat", "chair", "Bike", "Gokart", "Motorbike", "Wheeliebike")
 
-genmenu("toolsR5", "Red PoolNoodle", "Blue PoolNoodle")
+genmenu("toolsR5", "- wip, gave up on it smh", "Red PoolNoodle", "Blue PoolNoodle")
 
-genmenu("toolsR6", "radiated fries") -- wip
+genmenu("toolsR6", "Lemonade", "radiated fries", "eggzrin doll", "dango", "cucumber soda", "suika watermelon", "mooncarrot", "cucumber") -- wip
 
 
 
 genmenu("utools", "radar", "cloudplant", "blal")
-genmenu("atools", "ASCENSIONIST", "Immortality Lord", "Normalifyscensionist")
+genmenu("atools", "Infinite Gravity Gun", "Ascensionist", "Immortality Lord", "Normalifyscensionist", "Megaphone", "Lost")
 
 -- tools to add into the list
 
@@ -293,10 +293,18 @@ end
 
 
 
-local function toolsMenu()
+local function fDisappear()
     if db then return end
     db = true
     tweenAnim(disappear)
+end
+local function fAppear()
+    tweenAnim(appear)
+    db = false
+end
+
+local function toolsMenu()
+    fDisappear()
     gui.main.Visible = false
 
     gui.toolsR1.Visible = false
@@ -308,109 +316,76 @@ local function toolsMenu()
     gui.toolsR5.Visible = false
 
     gui.rtools.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 
-
-
 local function toolsR1Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR1.Visible = true
     gui.toolsR1P2.Visible = false
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR1P2Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR1.Visible = false
     gui.toolsR1P2.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR2Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR2.Visible = true
     gui.toolsR2P2.Visible = false
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR2P2Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR2.Visible = false
     gui.toolsR2P2.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR3Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR3.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR4Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR4.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR5Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR5.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function toolsR6Menu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.rtools.Visible = false
     gui.toolsR6.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 
 
 
 local function utoolsMenu()
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.main.Visible = false
     gui.utools.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 local function atoolsMenu()
     if adminPerms ~= true then return end
-    if db then return end
-    db = true
-    tweenAnim(disappear)
+    fDisappear()
     gui.main.Visible = false
     gui.atools.Visible = true
-    tweenAnim(appear)
-    db = false
+    fAppear()
 end
 
 local function menuSwitch(key, isChatting)
@@ -490,6 +465,8 @@ local function menuSwitch(key, isChatting)
     end
 end
 
+
+-- HOTKEYS
 local itemGiversFolder = game.Workspace:FindFirstChild("ItemGivers")
 local function itemGiver(v, var)
     if adminPerms then
@@ -511,10 +488,12 @@ local function hotkeyGiver(v)
         elseif v == k2 then
             itemGiver("FriedRice")
         elseif v == k3 then
-            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:WaitForChild("BaseClickBox").ClickDetector
-            itemGiver("mug")
-		    plr.Backpack:WaitForChild("mug").Parent = chr
-		    fireclickdetector(cofe)
+            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:FindFirstChild("BaseClickBox").ClickDetector
+            if cofe then
+                itemGiver("mug")
+		        plr.Backpack:FindFirstChild("mug").Parent = chr
+		        fireclickdetector(cofe)
+            end
         elseif v == k4 then
             itemGiver("borgir")
         elseif v == k5 then
@@ -650,21 +629,21 @@ local function hotkeyGiver(v)
         end
     elseif gui.toolsR6.Visible then
         if v == k1 then
-            itemGiver("radiated fries")
+            itemGiver("Lemonade")
         elseif v == k2 then
-            itemGiver("dango")
+            itemGiver("radiated fries")
         elseif v == k3 then
-
+            itemGiver("eggzrin doll")
         elseif v == k4 then
-
+            itemGiver("dango")
         elseif v == k5 then
-
+            itemGiver("cucumber soda")
         elseif v == k6 then
-
+            itemGiver("suika watermelon")
         elseif v == k7 then
-
+            itemGiver("mooncarrot")
         elseif v == k8 then
-
+            itemGiver("cucumber")
         elseif v == k9 then
 
         end
@@ -690,17 +669,17 @@ local function hotkeyGiver(v)
         end
     elseif gui.atools.Visible then
         if v == k1 then
-            itemGiver("ASCENSIONIST")
+            itemGiver("InfGravityGun")
         elseif v == k2 then
-            itemGiver("Immortality Lord")
+            itemGiver("ASCENSIONIST")
         elseif v == k3 then
-            itemGiver("Normalifyscensionist")
+            itemGiver("Immortality Lord")
         elseif v == k4 then
-
+            itemGiver("NORMALIFYSCENSIONIST")
         elseif v == k5 then
-
+            itemGiver("Megaphone")
         elseif v == k6 then
-
+            itemGiver("Lost")
         elseif v == k7 then
 
         elseif v == k8 then
@@ -744,8 +723,11 @@ end)
 UIS.InputBegan:Connect(function(key, isChatting)
     if gui ~= nil then
         if isChatting then return end
-        if key.KeyCode == Enum.KeyCode.PageDown then
+        if key.KeyCode == Enum.KeyCode.PageUp then
             gui:Destroy()
+            return
+        elseif key.KeyCode == Enum.KeyCode.PageDown then
+            script:Gestroy()
         end
     end
 end)
