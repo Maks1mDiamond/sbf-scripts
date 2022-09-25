@@ -16,23 +16,23 @@ gui.Parent = plrgui
 gui.DisplayOrder = 200
 gui.ResetOnSpawn = false -- dont touch
 
+-- default config if not using loadstring version
+if keypad == nil then
+    adminPerms = false
+    sbfStyle = true
 
+    bgColor = Color3.fromRGB(0,0,0)
+    textColor = Color3.fromRGB(255,190,0)
+    textFont = Enum.Font.SourceSansBold
+    cornerRadius = 10
 
---local adminPerms = false
+    menuAnimations = true
+
+    keypad = false
+end
+
 local cBackpack = false
 
-
-
---[[
-local sbfStyle = false
-local bgColor = Color3.fromRGB(0,0,0)
-local textColor = Color3.fromRGB(255,190,0)
-local textFont = Enum.Font.SourceSansBold
-]]
-
---local cornerRadius = 10
-
---local menuAnimations = true
 local db = false -- dont touch
 
 local inDelay = 0.3
@@ -45,7 +45,6 @@ local twinfoout = TweenInfo.new(outDelay, Enum.EasingStyle.Cubic, Enum.EasingDir
 local appearAnim = {}
 local disappearAnim = {}
 
---local keypad = false
 local kc = Enum.KeyCode
 
 local k0,k1,k2,k3,k4,k5,k6,k7,k8,k9
