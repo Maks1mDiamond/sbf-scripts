@@ -314,6 +314,7 @@ local function toolsMenu()
     gui.toolsR3.Visible = false
     gui.toolsR4.Visible = false
     gui.toolsR5.Visible = false
+    gui.toolsR6.Visible = false
 
     gui.rtools.Visible = true
     fAppear()
