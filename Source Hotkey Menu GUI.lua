@@ -488,10 +488,10 @@ local function hotkeyGiver(v)
         elseif v == k2 then
             itemGiver("FriedRice")
         elseif v == k3 then
-            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:FindFirstChild("BaseClickBox").ClickDetector
+            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:WaitForChild("BaseClickBox").ClickDetector
             if cofe then
                 itemGiver("mug")
-		        plr.Backpack:WaitForChild("mug").Parent = chr
+		        plr.Backpack:FindFirstChild("mug").Parent = chr
 		        fireclickdetector(cofe)
             end
         elseif v == k4 then
