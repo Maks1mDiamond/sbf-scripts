@@ -467,7 +467,7 @@ end
 
 
 -- HOTKEYS
-local itemGiversFolder = game.Workspace:FindFirstChild("ItemGivers")
+local itemGiversFolder = game.Workspace.ItemGivers
 local function itemGiver(v, var)
     if adminPerms then
         reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..v)
@@ -477,7 +477,7 @@ local function itemGiver(v, var)
             poolNoodles(itemGiversFolder, var)
         else
         ]]
-        local cd = itemGiversFolder[v].Giver:FindFirstChild("ClickDetector")
+        local cd = itemGiversFolder[v]:FindFirstChild("Giver").ClickDetector
         fireclickdetector(cd)
     end
 end
@@ -488,10 +488,11 @@ local function hotkeyGiver(v)
         elseif v == k2 then
             itemGiver("FriedRice")
         elseif v == k3 then
-            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:WaitForChild("BaseClickBox").ClickDetector
+            local cofe = game.Workspace.Map["SBF's Fumofas Map (RANDOMPOTATO)"]["LeFumo Cafe"].Furniture["Coffee Maker"]:FindFirstChild("BaseClickBox").ClickDetector
             if cofe then
                 itemGiver("mug")
-		        plr.Backpack:WaitForChild("mug").Parent = chr
+                task.wait(1)
+		        plr.Backpack.mug.Parent = chr
 		        fireclickdetector(cofe)
             end
         elseif v == k4 then
