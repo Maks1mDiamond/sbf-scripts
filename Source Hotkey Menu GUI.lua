@@ -1,5 +1,4 @@
 local plr = game.Players.LocalPlayer
-local plrgui = plr.PlayerGui
 task.wait(1)
 local chr = plr.Character
 plr.CharacterAdded:Connect(function(character)
@@ -11,10 +10,9 @@ local UIS = game:GetService("UserInputService")
 local reps = game:GetService("ReplicatedStorage")
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "sorse menu gui"
-gui.Parent = plrgui
+gui.Name = "sorse 2 menu gui"
+gui.Parent = game:GetService("CoreGui")
 gui.DisplayOrder = 200
-gui.ResetOnSpawn = false -- dont touch
 
 -- default config if not using loadstring version
 if keypad == nil then
@@ -27,7 +25,10 @@ if keypad == nil then
     cornerRadius = 10
 
     menuAnimations = true
+    inDelay = 0.3
+    outDelay = 0.2
 
+    openMenuKeybind = Enum.KeyCode.C
     keypad = false
 end
 
@@ -35,21 +36,19 @@ local cBackpack = false
 
 local db = false -- dont touch
 
-local inDelay = 0.3
-local outDelay = 0.2
-
-local twsrv = game:GetService("TweenService")
-local twinfoin = TweenInfo.new(inDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.In)
-local twinfoout = TweenInfo.new(outDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out)
-
-local appearAnim = {}
-local disappearAnim = {}
+if menuAnimations then
+    twsrv = game:GetService("TweenService")
+    twinfoin = TweenInfo.new(inDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.In)
+    twinfoout = TweenInfo.new(outDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out)
+    appearAnim = {}
+    disappearAnim = {}
+end
 
 local kc = Enum.KeyCode
 
 local k0,k1,k2,k3,k4,k5,k6,k7,k8,k9
 if keypad ~= true then
-    k0 = kc.C
+    k0 = openMenuKeybind
     k1 = kc.One
     k2 = kc.Two
     k3 = kc.Three
@@ -68,7 +67,7 @@ else
         kc.KeypadDivide
     ]]
 
-    k0 = kc.KeypadMultiply
+    k0 = kc.KeypadZero
     k1 = kc.KeypadOne
     k2 = kc.KeypadTwo
     k3 = kc.KeypadThree
@@ -81,6 +80,9 @@ else
 end
 
 local k0_text = k0.Name.." | Go back"
+if keypad then
+    k0_text = "0 | Go back"
+end
 
 local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
     local frame = Instance.new("Frame")
@@ -153,13 +155,13 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
         if sbfStyle then
             text.Font = Enum.Font.Fantasy
             text.TextSize = 20
-            text.TextColor3 = Color3.new(1,1,1)
+            textColor = Color3.new(1, 1, 1)
         else
             text.Font = textFont
             text.TextSize = 20
-            text.TextColor3 = textColor
         end
 
+        text.TextColor3 = textColor
         text.TextWrapped = true
         text.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -206,7 +208,7 @@ genmenu("toolsR3", "FIREWORKS LAUNCHER!!!!!!", "Microwave", "dwaggy plushie", "l
 
 genmenu("toolsR4", "Roomba", "Boat", "chair", "Bike", "Gokart", "Motorbike", "Wheeliebike")
 
-genmenu("toolsR5", "- wip, gave up on it smh", "Red PoolNoodle", "Blue PoolNoodle")
+genmenu("toolsR5", "Red PoolNoodle", "Blue PoolNoodle")
 
 genmenu("toolsR6", "Lemonade", "radiated fries", "eggzrin doll", "dango", "cucumber soda", "suika watermelon", "mooncarrot", "cucumber") -- wip
 
@@ -472,13 +474,29 @@ local function itemGiver(v, var)
     if adminPerms then
         reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..v)
     else
-        --[[ my brain hurts so i just wiped whole part of the script
         if v == "PoolNoodle" then
-            poolNoodles(itemGiversFolder, var)
+            for i,c in next, itemGiversFolder:GetChildren() do
+                if c:IsA("Model") and c.Name == v then
+                    for n, value in pairs(c:GetAttributes()) do
+                        if n and n == "Color" then
+                            if value == "red" and var == "red" then
+                                local cd = c:FindFirstChild("Giver").ClickDetector
+                                fireclickdetector(cd)
+                            elseif value == "blue" and var == "blue" then
+                                local cd = c:FindFirstChild("Giver").ClickDetector
+                                fireclickdetector(cd)
+                            end
+                        else
+                            local cd = v:FindFirstChild("Giver").ClickDetector
+                            fireclickdetector(cd)
+                        end
+                    end
+                end
+            end
         else
-        ]]
-        local cd = itemGiversFolder[v]:FindFirstChild("Giver").ClickDetector
-        fireclickdetector(cd)
+            local cd = itemGiversFolder[v]:FindFirstChild("Giver").ClickDetector
+            fireclickdetector(cd)
+        end
     end
 end
 local function hotkeyGiver(v)
@@ -610,9 +628,9 @@ local function hotkeyGiver(v)
         end
     elseif gui.toolsR5.Visible then
         if v == k1 then
-            --itemGiver("PoolNoodle", "red")
+            itemGiver("PoolNoodle", "red")
         elseif v == k2 then
-            --itemGiver("PoolNoodle", "blue")
+            itemGiver("PoolNoodle", "blue")
         elseif v == k3 then
 
         elseif v == k4 then
