@@ -12,7 +12,7 @@ local reps = game:GetService("ReplicatedStorage")
 local gui = Instance.new("ScreenGui")
 gui.Name = "sorse 2 menu gui"
 gui.Parent = game:GetService("CoreGui")
-gui.DisplayOrder = 200
+--gui.DisplayOrder = 200
 
 -- default config if not using loadstring version
 if keypad == nil then
