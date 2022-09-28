@@ -475,21 +475,20 @@ local function itemGiver(v, var)
         reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..v)
     else
         if v == "PoolNoodle" then
-            for i,c in next, itemGiversFolder:GetChildren() do
+            for i, c in next, itemGiversFolder:GetChildren() do
                 if c:IsA("Model") and c.Name == v then
-                    for n, value in pairs(c:GetAttributes()) do
-                        if n and n == "Color" then
-                            if value == "red" and var == "red" then
-                                local cd = c:FindFirstChild("Giver").ClickDetector
-                                fireclickdetector(cd)
-                            elseif value == "blue" and var == "blue" then
-                                local cd = c:FindFirstChild("Giver").ClickDetector
-                                fireclickdetector(cd)
-                            end
-                        else
-                            local cd = v:FindFirstChild("Giver").ClickDetector
-                            fireclickdetector(cd)
-                        end
+                    if c:GetAttribute("Color") == "red" and var == "red" then
+                        local cd = c:FindFirstChild("Giver").ClickDetector
+                        fireclickdetector(cd)
+                        print("red")
+                    elseif c:GetAttribute("Color") == "blue" and var == "blue" then
+                        local cd = c:FindFirstChild("Giver").ClickDetector
+                        fireclickdetector(cd)
+                        print("blue")
+                    elseif c:GetAttribute("Color") == nil and var == nil then
+                        local cd = c:FindFirstChild("Giver").ClickDetector
+                        fireclickdetector(cd)
+                        print("regular")
                     end
                 end
             end
