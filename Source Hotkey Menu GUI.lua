@@ -198,19 +198,97 @@ genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "Event", "FumoFest")
 
 
 
-genmenu("toolsR1", "pizzer", "FriedRice", "cofe", "borgir", "yuyuletics", "IceCream", "chiru", "pep", "- Page 1 >")
-genmenu("toolsR1P2", "choccy milk", "soder", "Watermelon", "", "", "", "", "", "< Page 2 -")
+genmenu(
+    "toolsR1",
+    "pizzer",
+    "FriedRice",
+    "cofe",
+    "borgir",
+    "yuyuletics",
+    "IceCream",
+    "chiru",
+    "pep",
+    "- Page 1 >"
+)
+genmenu(
+    "toolsR1P2",
+    "choccy milk",
+    "soder",
+    "Watermelon",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "< Page 2 -"
+)
 
-genmenu("toolsR2", "DESCENSIONIST", "PoolNoodle", "GravityGun", "PortalGun", "BoomboxGun", "Lightning Cannon", "the pan", "lcv2", "- Page 1 >")
-genmenu("toolsR2P2", "Yamato", "Prototype", "RocketLauncher", "Banana", "ClassicTrowel", "", "", "", "< Page 2 -")
+genmenu(
+    "toolsR2",
+    "DESCENSIONIST",
+    "PoolNoodle",
+    "GravityGun",
+    "PortalGun",
+    "Yuuka's Parasol",
+    "Kogasa's Parasol",
+    "Remilia's Parasol",
+    "the pan",
+    "- Page 1 >"
+)
+genmenu(
+    "toolsR2P2",
+    "Yamato",
+    "Prototype",
+    "RocketLauncher",
+    "Banana",
+    "ClassicTrowel",
+    "lcv2",
+    "Lightning Cannon",
+    "BoomboxGun",
+    "< Page 2 -"
+)
 
-genmenu("toolsR3", "FIREWORKS LAUNCHER!!!!!!", "Microwave", "dwaggy plushie", "life jacket", "YuyuOnionRing", "Petition", "ClownpieceRocket", "Fishing Rod", "Bucket")
+genmenu(
+    "toolsR3",
+    "FIREWORKS LAUNCHER!!!!!!",
+    "Microwave",
+    "dwaggy plushie",
+    "life jacket",
+    "YuyuOnionRing",
+    "Petition",
+    "ClownpieceRocket",
+    "Fishing Rod",
+    "Bucket")
 
-genmenu("toolsR4", "Roomba", "Boat", "chair", "Bike", "Gokart", "Motorbike", "Wheeliebike")
+genmenu(
+    "toolsR4",
+    "Roomba",
+    "Boat",
+    "chair",
+    "Bike",
+    "Gokart",
+    "Motorbike",
+    "Wheeliebike",
+    "Wheelchair"
+)
 
-genmenu("toolsR5", "Red PoolNoodle", "Blue PoolNoodle")
+genmenu(
+    "toolsR5",
+    "Red PoolNoodle",
+    "Blue PoolNoodle"
+)
 
-genmenu("toolsR6", "Lemonade", "radiated fries", "eggzrin doll", "dango", "cucumber soda", "suika watermelon", "mooncarrot", "cucumber") -- wip
+genmenu(
+    "toolsR6",
+    "Lemonade",
+    "radiated fries",
+    "eggzrin doll",
+    "dango",
+    "cucumber soda",
+    "suika watermelon",
+    "mooncarrot",
+    "cucumber"
+) -- wip
 
 
 
@@ -470,35 +548,48 @@ end
 
 -- HOTKEYS
 local itemGiversFolder = game.Workspace.ItemGivers
-local function itemGiver(v, var)
+local function itemGiver(item, var)
     if adminPerms then
-        reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..v)
+        reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..item)
     else
-        if v == "PoolNoodle" then
-            for i, c in next, itemGiversFolder:GetChildren() do
-                if c:IsA("Model") and c.Name == v then
-                    if c:GetAttribute("Color") == "red" and var == "red" then
-                        local cd = c:FindFirstChild("Giver").ClickDetector
+        if item == "PoolNoodle" then
+            for i, v in next, itemGiversFolder:GetChildren() do
+                if v:IsA("Model") and v.Name == item then
+                    if v:GetAttribute("Color") == "red" and var == "red" then
+                        local cd = v:FindFirstChild("Giver").ClickDetector
                         fireclickdetector(cd)
-                        print("red")
-                    elseif c:GetAttribute("Color") == "blue" and var == "blue" then
-                        local cd = c:FindFirstChild("Giver").ClickDetector
+                    elseif v:GetAttribute("Color") == "blue" and var == "blue" then
+                        local cd = v:FindFirstChild("Giver").ClickDetector
                         fireclickdetector(cd)
-                        print("blue")
-                    elseif c:GetAttribute("Color") == nil and var == nil then
-                        local cd = c:FindFirstChild("Giver").ClickDetector
+                    elseif v:GetAttribute("Color") == nil and var == nil then
+                        local cd = v:FindFirstChild("Giver").ClickDetector
                         fireclickdetector(cd)
-                        print("regular")
+                    end
+                end
+            end
+        elseif item == "parasol" then
+            for i, v in next, itemGiversFolder:GetChildren() do
+                if v:IsA("Model") and v.Name == item then
+                    if v:GetAttribute("ParasolType") == "Yuuka" and var == "yuuka" then
+                        local cd = v:FindFirstChild("Giver").ClickDetector
+                        fireclickdetector(cd)
+                    elseif v:GetAttribute("ParasolType") == "Kogasa" and var == "koggers" then
+                        local cd = v:FindFirstChild("Giver").ClickDetector
+                        fireclickdetector(cd)
+                    elseif v:GetAttribute("ParasolType") == "Remilia" and var == "remi" then
+                        local cd = v:FindFirstChild("Giver").ClickDetector
+                        fireclickdetector(cd)
                     end
                 end
             end
         else
-            local cd = itemGiversFolder[v]:FindFirstChild("Giver").ClickDetector
+            local cd = itemGiversFolder[item]:FindFirstChild("Giver").ClickDetector
             fireclickdetector(cd)
         end
     end
 end
 local function hotkeyGiver(v)
+    -- Foods
     if gui.toolsR1.Visible then
         if v == k1 then
             itemGiver("pizzer")
@@ -545,6 +636,9 @@ local function hotkeyGiver(v)
         elseif v == k9 then
             -- goto page 1
         end
+
+
+        -- Weapons
     elseif gui.toolsR2.Visible then
         if v == k1 then
             itemGiver("DESCENSIONIST")
@@ -555,13 +649,13 @@ local function hotkeyGiver(v)
         elseif v == k4 then
             itemGiver("PortalGun")
         elseif v == k5 then
-            itemGiver("BoomboxGun")
+            itemGiver("parasol", "yuuka")
         elseif v == k6 then
-            itemGiver("Lightning Cannon")
+            itemGiver("parasol", "koggers")
         elseif v == k7 then
-            itemGiver("the pan")
+            itemGiver("parasol", "remi")
         elseif v == k8 then
-            itemGiver("lcv2")
+            itemGiver("the pan")
         elseif v == k9 then
             -- goto page 2
         end
@@ -577,14 +671,17 @@ local function hotkeyGiver(v)
         elseif v == k5 then
             itemGiver("ClassicTrowel")
         elseif v == k6 then
-
+            itemGiver("lcv2")
         elseif v == k7 then
-
+            itemGiver("Lightning Cannon")
         elseif v == k8 then
-
+            itemGiver("BoomboxGun")
         elseif v == k9 then
             -- goto page 1
         end
+
+
+        -- fnuuy
     elseif gui.toolsR3.Visible then
         if v == k1 then
             itemGiver("FIREWORKS LAUNCHER!!!!!!")
@@ -605,6 +702,9 @@ local function hotkeyGiver(v)
         elseif v == k9 then
             itemGiver("Bucket")
         end
+
+
+        -- Vehicles
     elseif gui.toolsR4.Visible then
         if v == k1 then
             itemGiver("Roomba")
@@ -621,10 +721,12 @@ local function hotkeyGiver(v)
         elseif v == k7 then
             itemGiver("Wheeliebike")
         elseif v == k8 then
-
+            itemGiver("Wheelchair")
         elseif v == k9 then
 
         end
+
+        -- Event
     elseif gui.toolsR5.Visible then
         if v == k1 then
             itemGiver("PoolNoodle", "red")
@@ -645,6 +747,8 @@ local function hotkeyGiver(v)
         elseif v == k9 then
 
         end
+
+        -- Fumofest
     elseif gui.toolsR6.Visible then
         if v == k1 then
             itemGiver("Lemonade")
@@ -665,6 +769,9 @@ local function hotkeyGiver(v)
         elseif v == k9 then
 
         end
+
+
+        -- Useful Tools
     elseif gui.utools.Visible then
         if v == k1 then
             itemGiver("radar")
@@ -685,6 +792,9 @@ local function hotkeyGiver(v)
         elseif v == k9 then
 
         end
+
+
+        -- Admin Tools
     elseif gui.atools.Visible then
         if v == k1 then
             itemGiver("InfGravityGun")
