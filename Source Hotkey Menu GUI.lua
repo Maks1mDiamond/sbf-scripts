@@ -635,7 +635,7 @@ local function itemGiver(item, var)
         task.wait(1)
         local backpackItem = bpk:FindFirstChild(item)
         if backpackItem then
-            backpackItem = chr
+            backpackItem.Parent = chr
         end
     end
 end
@@ -868,7 +868,7 @@ local function hotkeyGiver(v)
         end
 
 
-
+        -- Options
     elseif gui.options.Visible then
         if v == k1 then
             if equipAfterReceived then
