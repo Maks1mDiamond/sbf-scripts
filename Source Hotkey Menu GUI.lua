@@ -4,6 +4,7 @@ local chr = plr.Character
 plr.CharacterAdded:Connect(function(character)
 	chr = character
 end)
+local bpk = plr.Backpack
 
 local strgui = game:GetService("StarterGui")
 local UIS = game:GetService("UserInputService")
@@ -33,6 +34,7 @@ if keypad == nil then
 end
 
 local db = false -- dont touch
+local equipAfterReceived = false
 
 if menuAnimations then
     twsrv = game:GetService("TweenService")
@@ -138,9 +140,10 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
     warn(menu_type, "has been created")
 
     local ySize = 40
-    local function gentext(t, yPos)
+    local function gentext(t, yPos, tName)
         local text = Instance.new("TextLabel")
         text.Parent = frame
+        text.Name = tName
 
         text.Position = UDim2.new(0,15,0,yPos)
         text.Size = UDim2.new(1,-15,0,ySize)
@@ -175,22 +178,44 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
         end
     end
 
-    if t1 then gentext("1 | "..t1, 0) end
-    if t2 and t2 ~= "" then gentext("2 | "..t2, ySize) end
-    if t3 and t3 ~= "" then gentext("3 | "..t3, ySize*2) end
-    if t4 and t4 ~= "" then gentext("4 | "..t4, ySize*3) end
-    if t5 and t5 ~= "" then gentext("5 | "..t5, ySize*4) end
-    if t6 and t6 ~= "" then gentext("6 | "..t6, ySize*5) end
-    if t7 and t7 ~= "" then gentext("7 | "..t7, ySize*6) end
-    if t8 and t8 ~= "" then gentext("8 | "..t8, ySize*7) end
-    if t9 then gentext("9 | "..t9, ySize*8) end
-    gentext("t0", ySize*9)
+    if t1 then gentext("1 | "..t1, 0, "1") end
+    if t2 and t2 ~= "" then gentext("2 | "..t2, ySize, "2") end
+    if t3 and t3 ~= "" then gentext("3 | "..t3, ySize*2, "3") end
+    if t4 and t4 ~= "" then gentext("4 | "..t4, ySize*3, "4") end
+    if t5 and t5 ~= "" then gentext("5 | "..t5, ySize*4, "5") end
+    if t6 and t6 ~= "" then gentext("6 | "..t6, ySize*5, "6") end
+    if t7 and t7 ~= "" then gentext("7 | "..t7, ySize*6, "7") end
+    if t8 and t8 ~= "" then gentext("8 | "..t8, ySize*7, "8") end
+    if t9 then gentext("9 | "..t9, ySize*8, "9") end
+    gentext("t0", ySize*9, "exit")
 end
 
 if adminPerms then
-    genmenu("main", "Regular Tools", "Useful Tools", "Admin Tools")
+    genmenu(
+        "main",
+        "Regular Tools",
+        "Useful Tools",
+        "Admin Tools",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "Options"
+    )
 else
-    genmenu("main", "Regular Tools", "Useful Tools")
+    genmenu(
+        "main",
+        "Regular Tools",
+        "Useful Tools",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "Options"
+    )
 end
 genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "Event", "FumoFest")
 
@@ -300,6 +325,8 @@ genmenu(
 genmenu("utools", "radar", "cloudplant", "blal", "Pagoda")
 genmenu("atools", "Infinite Gravity Gun", "Ascensionist", "Immortality Lord", "Normalifyscensionist", "Megaphone", "Lost")
 
+genmenu("options", "Equip after received: false")
+
 -- tools to add into the list
 
 --[[
@@ -372,6 +399,7 @@ local function returnFromToolsIntoMainMenu()
     gui.rtools.Visible = false
     gui.utools.Visible = false
     gui.atools.Visible = false
+    gui.options.Visible = false
     gui.main.Visible = true
     tweenAnim(appear)
     db = false
@@ -474,6 +502,12 @@ local function atoolsMenu()
     gui.atools.Visible = true
     fAppear()
 end
+local function optionsMenu()
+    fDisappear()
+    gui.main.Visible = false
+    gui.options.Visible = true
+    fAppear()
+end
 
 local function menuSwitch(key, isChatting)
     if isChatting then return end
@@ -494,7 +528,8 @@ local function menuSwitch(key, isChatting)
         elseif
         gui.rtools.Visible or
         gui.utools.Visible or
-        gui.atools.Visible then
+        gui.atools.Visible or
+        gui.options.Visible then
             returnFromToolsIntoMainMenu()
         elseif
         gui.toolsR1.Visible or gui.toolsR1P2.Visible or
@@ -540,7 +575,9 @@ local function menuSwitch(key, isChatting)
     elseif key.KeyCode == k8 then
 
     elseif key.KeyCode == k9 then
-        if gui.toolsR1.Visible then
+        if gui.main.Visible then
+            optionsMenu()
+        elseif gui.toolsR1.Visible then
             toolsR1P2Menu()
         elseif gui.toolsR1P2.Visible then
             toolsR1Menu()
@@ -592,6 +629,13 @@ local function itemGiver(item, var)
         else
             local cd = itemGiversFolder[item]:FindFirstChild("Giver").ClickDetector
             fireclickdetector(cd)
+        end
+    end
+    if equipAfterReceived and item ~= "mug" then
+        task.wait(1)
+        local backpackItem = bpk:FindFirstChild(item)
+        if backpackItem then
+            backpackItem = chr
         end
     end
 end
@@ -821,6 +865,21 @@ local function hotkeyGiver(v)
 
         elseif v == k9 then
 
+        end
+
+
+
+    elseif gui.options.Visible then
+        if v == k1 then
+            if equipAfterReceived then
+                equipAfterReceived = false
+                gui.options["1"].TextColor3 = textColor
+                gui.options["1"].Text = "1 | Equip after received: false"
+            else
+                equipAfterReceived = true
+                gui.options["1"].TextColor3 = Color3.fromRGB(150, 255, 100)
+                gui.options["1"].Text = "1 | Equip after received: true"
+            end
         end
     end
 end
