@@ -32,8 +32,6 @@ if keypad == nil then
     keypad = false
 end
 
-local cBackpack = false
-
 local db = false -- dont touch
 
 if menuAnimations then
@@ -197,7 +195,7 @@ end
 genmenu("rtools", "Foods", "Weapons", "Fnuuy", "Vehicles", "Event", "FumoFest")
 
 
-
+-- foods
 genmenu(
     "toolsR1",
     "pizzer",
@@ -215,7 +213,7 @@ genmenu(
     "choccy milk",
     "soder",
     "Watermelon",
-    "",
+    "flancake",
     "",
     "",
     "",
@@ -223,6 +221,7 @@ genmenu(
     "< Page 2 -"
 )
 
+-- weapons
 genmenu(
     "toolsR2",
     "DESCENSIONIST",
@@ -237,8 +236,8 @@ genmenu(
 )
 genmenu(
     "toolsR2P2",
-    "Yamato",
     "Prototype",
+    "Yamato",
     "RocketLauncher",
     "Banana",
     "ClassicTrowel",
@@ -248,6 +247,7 @@ genmenu(
     "< Page 2 -"
 )
 
+-- fnuuy
 genmenu(
     "toolsR3",
     "FIREWORKS LAUNCHER!!!!!!",
@@ -258,8 +258,10 @@ genmenu(
     "Petition",
     "ClownpieceRocket",
     "Fishing Rod",
-    "Bucket")
+    "Bucket"
+)
 
+-- vehicles
 genmenu(
     "toolsR4",
     "Roomba",
@@ -272,12 +274,14 @@ genmenu(
     "Wheelchair"
 )
 
+-- event
 genmenu(
     "toolsR5",
     "Red PoolNoodle",
     "Blue PoolNoodle"
 )
 
+-- fumofest
 genmenu(
     "toolsR6",
     "Lemonade",
@@ -287,12 +291,13 @@ genmenu(
     "cucumber soda",
     "suika watermelon",
     "mooncarrot",
-    "cucumber"
-) -- wip
+    "cucumber",
+    "whopeecushion"
+)
 
 
 
-genmenu("utools", "radar", "cloudplant", "blal")
+genmenu("utools", "radar", "cloudplant", "blal", "Pagoda")
 genmenu("atools", "Infinite Gravity Gun", "Ascensionist", "Immortality Lord", "Normalifyscensionist", "Megaphone", "Lost")
 
 -- tools to add into the list
@@ -329,6 +334,8 @@ local function tweenAnim(v)
 end
 local appear = true
 local disappear = false
+
+local cBackpack = false
 local function toggleMainMenu(v)
     if v then
         if db then return end
@@ -624,7 +631,7 @@ local function hotkeyGiver(v)
         elseif v == k3 then
             itemGiver("Watermelon")
         elseif v == k4 then
-
+            itemGiver("flancake")
         elseif v == k5 then
 
         elseif v == k6 then
@@ -661,9 +668,9 @@ local function hotkeyGiver(v)
         end
     elseif gui.toolsR2P2.Visible then
         if v == k1 then
-            itemGiver("Yamato")
-        elseif v == k2 then
             itemGiver("Prototype")
+        elseif v == k2 then
+            itemGiver("Yamato")
         elseif v == k3 then
             itemGiver("RocketLauncher")
         elseif v == k4 then
@@ -767,7 +774,7 @@ local function hotkeyGiver(v)
         elseif v == k8 then
             itemGiver("cucumber")
         elseif v == k9 then
-
+            itemGiver("whopeecushion")
         end
 
 
@@ -780,7 +787,7 @@ local function hotkeyGiver(v)
         elseif v == k3 then
             itemGiver("blal")
         elseif v == k4 then
-
+            itemGiver("Pagoda")
         elseif v == k5 then
 
         elseif v == k6 then
