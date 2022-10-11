@@ -4,7 +4,6 @@ local chr = plr.Character
 plr.CharacterAdded:Connect(function(character)
 	chr = character
 end)
-local bpk = plr.Backpack
 
 local strgui = game:GetService("StarterGui")
 local UIS = game:GetService("UserInputService")
@@ -309,14 +308,14 @@ genmenu(
 -- fumofest
 genmenu(
     "toolsR6",
-    "Lemonade",
+    "lemonade",
     "radiated fries",
     "eggzrin doll",
     "dango",
     "cucumber soda",
     "suika watermelon",
     "mooncarrot",
-    "cucumber",
+    "nitori cucumber",
     "whopeecushion"
 )
 
@@ -632,10 +631,11 @@ local function itemGiver(item, var)
         end
     end
     if equipAfterReceived and item ~= "mug" then
-        task.wait(1)
-        local backpackItem = bpk:FindFirstChild(item)
-        if backpackItem then
-            backpackItem.Parent = chr
+        task.wait(.5)
+        local bpk = plr.Backpack
+        local bpkItem = bpk:FindFirstChild(item)
+        if bpkItem then
+            bpkItem.Parent = chr
         end
     end
 end
@@ -802,7 +802,7 @@ local function hotkeyGiver(v)
         -- Fumofest
     elseif gui.toolsR6.Visible then
         if v == k1 then
-            itemGiver("Lemonade")
+            itemGiver("lemonade")
         elseif v == k2 then
             itemGiver("radiated fries")
         elseif v == k3 then
@@ -816,7 +816,7 @@ local function hotkeyGiver(v)
         elseif v == k7 then
             itemGiver("mooncarrot")
         elseif v == k8 then
-            itemGiver("cucumber")
+            itemGiver("nitori cucumber")
         elseif v == k9 then
             itemGiver("whopeecushion")
         end
