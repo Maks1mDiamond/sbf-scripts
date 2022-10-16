@@ -15,7 +15,7 @@ gui.Parent = game:GetService("CoreGui")
 --gui.DisplayOrder = 200
 
 -- default config if not using loadstring version
-if keypad == nil then
+if openMenuKeybind == nil then
     adminPerms = false
     sbfStyle = true
 
@@ -588,7 +588,47 @@ local function menuSwitch(key, isChatting)
     end
 end
 
+local cdb = false -- count debounce
+local equippedCount = 0
+local function equippedCountFunction(createText)
+    if cdb then print("debounce trigger") return end
+    if createText == true then
+        local text = Instance.new("TextLabel")
+        text.Name = "equippedCounter"
+        text.Parent = gui
+        text.AnchorPoint = Vector2.new(0, 1)
+        text.Position = UDim2.new(0, 25, 1, -25)
+        text.Size = UDim2.new(0, 100, 0, 100)
+        text.BackgroundTransparency = 1
+        text.BackgroundColor3 = Color3.new(0, 0, 0)
+        text.ZIndex = 10
 
+        text.Font = Enum.Font.Gotham
+        text.TextColor3 = textColor
+        text.TextTransparency = 1
+        text.TextScaled = true
+        text.TextWrapped = true
+    else
+        local text = gui:FindFirstChild("equippedCounter")
+        cdb = true
+        text.BackgroundTransparency = 0.5
+        text.TextTransparency = 0
+
+        equippedCount = 0
+        for i,v in next, chr:GetChildren() do
+            if v:IsA("Tool") then
+                equippedCount = equippedCount + 1
+            end
+        end
+        text.Text = equippedCount
+
+        task.wait(1)
+        cdb = false
+        text.BackgroundTransparency = 1
+        text.TextTransparency = 1
+    end
+end
+equippedCountFunction(true)
 -- HOTKEYS
 local itemGiversFolder = game.Workspace.ItemGivers
 local function itemGiver(item, var)
@@ -631,12 +671,14 @@ local function itemGiver(item, var)
         end
     end
     if equipAfterReceived and item ~= "mug" then
-        task.wait(.5)
+        task.wait(.4)
         local bpk = plr.Backpack
         local bpkItem = bpk:FindFirstChild(item)
         if bpkItem then
             bpkItem.Parent = chr
         end
+        task.wait(.1)
+        equippedCountFunction()
     end
 end
 local function hotkeyGiver(v)
