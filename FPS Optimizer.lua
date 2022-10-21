@@ -1,17 +1,19 @@
 local plr = game.Players
 --local locplr = plr.LocalPlayer
 
-local exclude_players = false
---local exclude_localplayer = true
-local faceless = false
+if change_mat == nil then
+    exclude_players = false
+    --local exclude_localplayer = true
+    faceless = false
 
-local change_mat = true
-local remove_tex = true
-local remove_mesh = false
-local remove_particles = false
-local mat = Enum.Material.SmoothPlastic
+    change_mat = true
+    remove_tex = true
+    remove_mesh = false
+    remove_particles = false
+    mat = Enum.Material.SmoothPlastic
 
-local debug = false
+    debug = false
+end
 
 local startTime = os.clock()
 local function optimize(a)
