@@ -26,7 +26,8 @@ local function optimize(a)
                 end
                 if faceless ~= true then
                     if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" and
-                    v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Name ~= "EyeShine" and v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Shine" then
+                    --[[v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Name ~= "EyeShine" and v.Parent.Name ~= "Shine" and]]
+                    v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Head" then
                         purge()
                     end
                 else
