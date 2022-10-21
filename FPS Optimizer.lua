@@ -88,7 +88,7 @@ local function optimize(a)
                     end
                 end
             end
-        elseif v:IsA("ParticleEmitter") then
+        elseif v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
             if remove_particles then
                 v:Destroy()
             end
