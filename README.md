@@ -32,14 +32,12 @@ getgenv().faceless = false
 
 getgenv().change_mat = true
 getgenv().remove_tex = true
-getgenv().remove_mesh = true
-getgenv().remove_particles = true
+getgenv().remove_mesh = false
+getgenv().remove_particles = false
 getgenv().mat = Enum.Material.SmoothPlastic
 getgenv().ignoreffmat = true
 
 getgenv().optimizeLighting = true
-
-getgenv().debug = false
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Maks1mDiamond/sbf-scripts/main/FPS%20Optimizer.lua"))()
 ```
