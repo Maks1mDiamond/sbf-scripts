@@ -51,7 +51,13 @@ local function optimize(a)
             end
         elseif v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("WedgePart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
             if change_mat then
-                applyMat()
+                if ignoreffmat ~= false then
+                    if v.Material ~= Enum.Material.ForceField then
+                        applyMat()
+                    end
+                else
+                    applyMat()
+                end
             end
         elseif v:IsA("MeshPart") then
             if remove_tex then
