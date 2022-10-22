@@ -23,7 +23,14 @@ local startTime = os.clock()
 local function optimize(a)
     for _, v in next, a:GetDescendants() do
         local function applyMat()
-            if v.Material ~= mat and v.Material ~= Enum.Material.Neon then
+            if ignoreffmat then
+                if v.Material ~= Enum.Material.ForceField and v.Material ~= mat and v.Material ~= Enum.Material.Neon then
+                    v.Material = mat
+                    if debug then
+                        print(scriptName, v.ClassName .. " | " .. v.Name, "| has been solidified")
+                    end
+                end
+            elseif v.Material ~= mat and v.Material ~= Enum.Material.Neon then
                 v.Material = mat
                 if debug then
                     print(scriptName, v.ClassName .. " | " .. v.Name, "| has been solidified")
@@ -51,13 +58,7 @@ local function optimize(a)
             end
         elseif v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("WedgePart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
             if change_mat then
-                if ignoreffmat ~= false then
-                    if v.Material ~= Enum.Material.ForceField then
-                        applyMat()
-                    end
-                else
-                    applyMat()
-                end
+                applyMat()
             end
         elseif v:IsA("MeshPart") then
             if remove_tex then
@@ -69,13 +70,7 @@ local function optimize(a)
                 end
             end
             if change_mat then
-                if ignoreffmat ~= false then
-                    if v.Material ~= Enum.Material.ForceField then
-                        applyMat()
-                    end
-                else
-                    applyMat()
-                end
+                applyMat()
             end
             if remove_mesh then
                 if v.MeshId ~= "" then
@@ -107,6 +102,16 @@ local function optimize(a)
             end
         end
     end
+    if optimizeLighting then
+        for i,v in next, game.Lighting:GetChildren() do
+            if v:IsA("Atmosphere") or v:IsA("SunRaysEffect") or v:IsA("DepthOfFieldEffect") then
+                v:Destroy()
+                if debug then
+                    print(scriptName, "Removed: ", v.ClassName)
+                end
+            end
+        end
+    end
 end
 
 for i, r in next, workspace:GetChildren() do
@@ -116,14 +121,6 @@ for i, r in next, workspace:GetChildren() do
         end
     end
     optimize(r)
-end
-
-if optimizeLighting then
-    for i,v in next, game.Lighting:GetDescendants() do
-        if v:IsA("Atmosphere") or v:IsA("SunRaysEffect") or v:IsA("DepthOfFieldEffect") then
-            v:Destroy()
-        end
-    end
 end
 
 local terraria = workspace:FindFirstChild("Terrain")
