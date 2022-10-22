@@ -1,5 +1,6 @@
 local plr = game.Players
 --local locplr = plr.LocalPlayer
+local scriptName = "[Maks's FPS Optimizer]"
 
 if change_mat == nil then
     exclude_players = false
@@ -11,6 +12,7 @@ if change_mat == nil then
     remove_mesh = false
     remove_particles = false
     mat = Enum.Material.SmoothPlastic
+    ignoreffmat = true
 
     debug = false
 end
@@ -18,57 +20,60 @@ end
 local startTime = os.clock()
 local function optimize(a)
     for _, v in next, a:GetDescendants() do
+        local function applyMat()
+            if v.Material ~= mat and v.Material ~= Enum.Material.Neon then
+                v.Material = mat
+                if debug then
+                    print(scriptName, v.ClassName .. " | " .. v.Name, "| has been solidified")
+                end
+            end
+        end
         if v:IsA("Decal") or v:IsA("Texture") then
             if remove_tex then
                 local function purge()
                     v:Destroy()
                     if debug then
-                        print(v.ClassName .. " | " .. v.Name, "| has been destroyed")
+                        print(scriptName, v.ClassName .. " | " .. v.Name, "| has been destroyed")
                     end
                 end
-                if faceless ~= true then
-                    if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" and
-                    --[[v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Name ~= "EyeShine" and]]
-                    v.Parent.Name ~= "Shine" and v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Head" then
-                        purge()
-                    end
-                else
-                    if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
+                if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
+                    if faceless ~= true then
+                        if v.Parent.Name ~= "Shine" and v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Head" then
+                        --[[v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Name ~= "EyeShine" and]]
+                            purge()
+                        end
+                    else
                         purge()
                     end
                 end
             end
         elseif v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("WedgePart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
             if change_mat then
-                if v.Material ~= mat and v.Material ~= Enum.Material.Neon then
-                    v.Material = mat
-                    if debug then
-                        print(v.ClassName .. " | " .. v.Name, "| has been solidified")
-                    end
-                end
+                applyMat()
             end
         elseif v:IsA("MeshPart") then
             if remove_tex then
                 if v.TextureID ~= "" then
                     v.TextureID = ""
                     if debug then
-                        print(v.ClassName .. " | " .. v.Name, "| removed TextureID")
+                        print(scriptName, v.ClassName .. " | " .. v.Name, "| removed TextureID")
                     end
                 end
             end
             if change_mat then
-                if v.Material ~= mat and v.Material ~= Enum.Material.Neon then
-                    v.Material = mat
-                    if debug then
-                        print(v.ClassName .. " | " .. v.Name, "| has been solidified")
+                if ignoreffmat ~= false then
+                    if v.Material ~= Enum.Material.ForceField then
+                        applyMat()
                     end
+                else
+                    applyMat()
                 end
             end
             if remove_mesh then
                 if v.MeshId ~= "" then
                     v.MeshId = ""
                     if debug then
-                        print(v.ClassName .. " | " .. v.Name, "| removed MeshId")
+                        print(scriptName, v.ClassName .. " | " .. v.Name, "| removed MeshId")
                     end
                 end
             end
@@ -77,14 +82,14 @@ local function optimize(a)
                 v.TextureId = ""
 
                 if debug then
-                    print(v.ClassName .. " | " .. v.Name, "| removed TextureId")
+                    print(scriptName, v.ClassName .. " | " .. v.Name, "| removed TextureId")
                 end
             end
             if remove_mesh then
                 if v.MeshId ~= "" then
                     v.MeshId = ""
                     if debug then
-                        print(v.ClassName .. " | " .. v.Name, "| removed MeshId")
+                        print(scriptName, v.ClassName .. " | " .. v.Name, "| removed MeshId")
                     end
                 end
             end
@@ -101,14 +106,6 @@ for i, r in next, workspace:GetChildren() do
         if r:IsA("Highlight") and r.Name == "Players" then
             return
         end
-    --[[
-    elseif exclude_localplayer then
-        if r:IsA("Highlight") and r.Name == "Players" then
-            if r:FindFirstChild(locplr.Name) then
-                return
-            end
-        end
-    ]]
     end
     optimize(r)
 end
@@ -119,34 +116,23 @@ terraria.WaterWaveSize = 0
 terraria.WaterWaveSpeed = 0
 
 local deltaTime = os.clock() - startTime
-print(("Finished cleaning up everything, took %.2f seconds"):format(deltaTime))
+print(scriptName, ("Finished cleaning up everything, took %.2f seconds"):format(deltaTime))
 
 plr.PlayerAdded:Connect(function(pplr)
-    if exclude_players then
-        return
-    end
+    if exclude_players then return end
     task.wait(5)
     optimize(pplr.Character)
+    if debug then
+        print(scriptName, "Newly created character has been optimized:", pplr.Character.Name)
+    end
 end)
 for i, v in ipairs(plr:GetPlayers()) do
-    if exclude_players then
-        return
+    if exclude_players then return end
+    v.CharacterAdded:Connect(function(chr)
+        task.wait(0.5)
+        optimize(chr)
+    end)
+    if v.Character then
+        optimize(v)
     end
-    local function fard()
-        v.CharacterAdded:Connect(function(chr)
-            task.wait(0.5)
-            optimize(chr)
-        end)
-        if v.Character then
-            optimize(v)
-        end
-    end
-    fard()
-    --[[if exclude_localplayer then
-        if v ~= locplr then
-            fard()
-        end
-    else
-        fard()
-    end]]
 end
