@@ -14,6 +14,8 @@ if change_mat == nil then
     mat = Enum.Material.SmoothPlastic
     ignoreffmat = true
 
+    optimizeLighting = false
+
     debug = false
 end
 
@@ -108,6 +110,14 @@ for i, r in next, workspace:GetChildren() do
         end
     end
     optimize(r)
+end
+
+if optimizeLighting then
+    for i,v in next, game.Lighting:GetDescendants() do
+        if v:IsA("Atmosphere") or v:IsA("SunRaysEffect") or v:IsA("DepthOfFieldEffect") then
+            v:Destroy()
+        end
+    end
 end
 
 local terraria = workspace:FindFirstChild("Terrain")
