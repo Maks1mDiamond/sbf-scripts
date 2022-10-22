@@ -591,7 +591,6 @@ end
 local cdb = false -- count debounce
 local equippedCount = 0
 local function equippedCountFunction(createText)
-    if cdb then print("debounce trigger") return end
     if createText == true then
         local text = Instance.new("TextLabel")
         text.Name = "equippedCounter"
@@ -601,6 +600,7 @@ local function equippedCountFunction(createText)
         text.Size = UDim2.new(0, 100, 0, 100)
         text.BackgroundTransparency = 1
         text.BackgroundColor3 = Color3.new(0, 0, 0)
+        text.BorderSizePixel = 0
         text.ZIndex = 10
 
         text.Font = Enum.Font.Gotham
@@ -608,6 +608,15 @@ local function equippedCountFunction(createText)
         text.TextTransparency = 1
         text.TextScaled = true
         text.TextWrapped = true
+    elseif cdb then
+        local text = gui:FindFirstChild("equippedCounter")
+        equippedCount = 0
+        for i,v in next, chr:GetChildren() do
+            if v:IsA("Tool") then
+                equippedCount = equippedCount + 1
+            end
+        end
+        text.Text = equippedCount
     else
         local text = gui:FindFirstChild("equippedCounter")
         cdb = true
