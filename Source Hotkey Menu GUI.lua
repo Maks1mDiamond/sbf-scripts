@@ -436,6 +436,7 @@ local function toolsMenu()
     gui.toolsR1P2.Visible = false
     gui.toolsR2.Visible = false
     gui.toolsR2P2.Visible = false
+    gui.toolsR2P3.Visible = false
     gui.toolsR3.Visible = false
     gui.toolsR4.Visible = false
     gui.toolsR5.Visible = false
