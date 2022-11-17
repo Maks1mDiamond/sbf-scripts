@@ -256,7 +256,7 @@ genmenu(
     "Kogasa's Parasol",
     "Remilia's Parasol",
     "the pan",
-    "- Page 1 >"
+    "- Next >"
 )
 genmenu(
     "toolsR2P2",
@@ -267,8 +267,20 @@ genmenu(
     "ClassicTrowel",
     "lcv2",
     "Lightning Cannon",
+    "< Back -",
+    "- Next >"
+)
+genmenu(
+    "toolsR2P3",
     "BoomboxGun",
-    "< Page 2 -"
+    "Breaker",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "< Back -",
+    "- Page 3 -"
 )
 
 -- fnuuy
@@ -452,6 +464,7 @@ local function toolsR2Menu()
     gui.rtools.Visible = false
     gui.toolsR2.Visible = true
     gui.toolsR2P2.Visible = false
+    gui.toolsR2P3.Visible = false
     fAppear()
 end
 local function toolsR2P2Menu()
@@ -459,6 +472,15 @@ local function toolsR2P2Menu()
     gui.rtools.Visible = false
     gui.toolsR2.Visible = false
     gui.toolsR2P2.Visible = true
+    gui.toolsR2P3.Visible = false
+    fAppear()
+end
+local function toolsR2P3Menu()
+    fDisappear()
+    gui.rtools.Visible = false
+    gui.toolsR2.Visible = false
+    gui.toolsR2P2.Visible = false
+    gui.toolsR2P3.Visible = true
     fAppear()
 end
 local function toolsR3Menu()
@@ -532,7 +554,7 @@ local function menuSwitch(key, isChatting)
             returnFromToolsIntoMainMenu()
         elseif
         gui.toolsR1.Visible or gui.toolsR1P2.Visible or
-        gui.toolsR2.Visible or gui.toolsR2P2.Visible or
+        gui.toolsR2.Visible or gui.toolsR2P2.Visible or gui.toolsR2P3.Visible or
         gui.toolsR3.Visible or
         gui.toolsR4.Visible or
         gui.toolsR5.Visible or
@@ -572,7 +594,11 @@ local function menuSwitch(key, isChatting)
     elseif key.KeyCode == k7 then
 
     elseif key.KeyCode == k8 then
-
+        if gui.toolsR2P2.Visible then
+            toolsR2Menu()
+        elseif gui.toolsR2P3.Visible then
+            toolsR2P2Menu()
+        end
     elseif key.KeyCode == k9 then
         if gui.main.Visible then
             optionsMenu()
@@ -583,7 +609,7 @@ local function menuSwitch(key, isChatting)
         elseif gui.toolsR2.Visible then
             toolsR2P2Menu()
         elseif gui.toolsR2P2.Visible then
-            toolsR2Menu()
+            toolsR2P3Menu()
         end
     end
 end
@@ -777,9 +803,15 @@ local function hotkeyGiver(v)
         elseif v == k7 then
             itemGiver("Lightning Cannon")
         elseif v == k8 then
-            itemGiver("BoomboxGun")
-        elseif v == k9 then
             -- goto page 1
+        elseif v == k9 then
+            -- goto page 2
+        end
+    elseif gui.toolsR2P3.Visible then
+        if v == k1 then
+            itemGiver("BoomboxGun")
+        elseif v == k2 then
+            itemGiver("Breaker")
         end
 
 
