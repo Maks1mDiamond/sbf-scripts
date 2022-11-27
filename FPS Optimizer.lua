@@ -134,6 +134,7 @@ print(scriptName, ("Finished cleaning up everything, took %.2f seconds"):format(
 
 
 local function chrAdded(character)
+    task.wait(4)
     optimize(character)
     if debug then
         print(scriptName, "Newly created character has been optimized:", character.Name)
