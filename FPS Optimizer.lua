@@ -74,7 +74,7 @@ local function optimize(a)
             end
             if remove_mesh then
                 if v.MeshId ~= "" then
-                    v.MeshId = ""
+                    v.MeshId = "rbxassetid://"
                     if debug then
                         print(scriptName, v.ClassName .. " | " .. v.Name, "| removed MeshId")
                     end
