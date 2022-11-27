@@ -131,21 +131,22 @@ terraria.WaterWaveSpeed = 0
 local deltaTime = os.clock() - startTime
 print(scriptName, ("Finished cleaning up everything, took %.2f seconds"):format(deltaTime))
 
-plr.PlayerAdded:Connect(function(pplr)
-    if exclude_players then return end
-    task.wait(5)
-    optimize(pplr.Character)
+
+
+local function chrAdded(character)
+    optimize(character)
     if debug then
-        print(scriptName, "Newly created character has been optimized:", pplr.Character.Name)
-    end
-end)
-for i, v in ipairs(plr:GetPlayers()) do
-    if exclude_players then return end
-    v.CharacterAdded:Connect(function(chr)
-        task.wait(0.5)
-        optimize(chr)
-    end)
-    if v.Character then
-        optimize(v)
+        print(scriptName, "Newly created character has been optimized:", character.Name)
     end
 end
+local function plrAdded(player)
+    if exclude_players then return end
+    player.CharacterAdded:Connect(chrAdded)
+    if player.Character then
+        chrAdded(player.Character)
+    end
+end
+for _, player in pairs(plr:GetPlayers()) do
+    plrAdded(player)
+end
+plr.PlayerAdded:Connect(plrAdded)
