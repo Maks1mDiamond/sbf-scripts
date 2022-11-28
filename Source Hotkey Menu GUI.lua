@@ -701,6 +701,17 @@ local function itemGiver(item, var)
                     end
                 end
             end
+        elseif item == "ClownpieceRocket" then
+            for i, v in next, itemGiversFolder:GetChildren() do
+                if v:IsA("Model") and v.Name == item then
+                    for _, a in next, v:GetChildren() do
+                        if a:IsA("Model") and a.Name == "americabooth" then
+                            local cd = a.Parent:FindFirstChild("Giver").ClickDetector
+                            fireclickdetector(cd)
+                        end
+                    end
+                end
+            end
         else
             local cd = itemGiversFolder[item]:FindFirstChild("Giver").ClickDetector
             fireclickdetector(cd)
