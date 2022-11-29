@@ -2,125 +2,132 @@ local plr = game.Players
 --local locplr = plr.LocalPlayer
 local scriptName = "[Maks's FPS Optimizer]"
 
-if change_mat == nil then
-    exclude_players = false
+if changeMaterial == nil then
+    excludePlayers = false
     --local exclude_localplayer = true
     faceless = false
 
-    change_mat = true
-    remove_tex = true
-    remove_mesh = false
-    remove_particles = false
-    mat = Enum.Material.SmoothPlastic
-    ignoreffmat = true
+    changeMaterial = true
+    removeTexture = true
+    removeMesh = false
+    removeParticles = false
+    material = Enum.Material.SmoothPlastic
+    ignoreForceFieldMaterial = true
 
     optimizeLighting = false
 
     debug = false
 end
 
+local blacklistMeshIDs = {
+    "rbxassetid://9398214567", "rbxassetid://9412211620", -- head
+    "rbxassetid://9398214611", "rbxassetid://9412211617", -- larm
+    "rbxassetid://9398214568", "rbxassetid://9412211541", -- lleg
+    "rbxassetid://9398214611", "rbxassetid://9412211617", -- rarm
+    "rbxassetid://9398214575", "rbxassetid://9412211549", -- rleg
+    "rbxassetid://9398214570", "rbxassetid://9412211561", -- torso
+}
+local blacklistTextures = {
+    "http://www.roblox.com/asset/?id=6239942134",
+    "rbxassetid://6239942134",
+    "6239942134"
+}
+
+local function printDebug(text)
+    if debug then
+        print(text)
+    end
+end
+
 local startTime = os.clock()
 local function optimize(a)
+    local function purge(part)
+        part:Destroy()
+        printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." | has been destroyed")
+    end
+
     for _, v in next, a:GetDescendants() do
-        local function applyMat()
-            if ignoreffmat then
-                if v.Material ~= Enum.Material.ForceField and v.Material ~= mat and v.Material ~= Enum.Material.Neon then
-                    v.Material = mat
-                    if debug then
-                        print(scriptName, v.ClassName .. " | " .. v.Name, "| has been solidified")
-                    end
+        local function applyMaterial(part)
+            if ignoreForceFieldMaterial then
+                if part.Material ~= Enum.Material.ForceField and part.Material ~= material and part.Material ~= Enum.Material.Neon then
+                    part.Material = material
+                    printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." | has been solidified")
                 end
-            elseif v.Material ~= mat and v.Material ~= Enum.Material.Neon then
-                v.Material = mat
-                if debug then
-                    print(scriptName, v.ClassName .. " | " .. v.Name, "| has been solidified")
+            elseif part.Material ~= material and part.Material ~= Enum.Material.Neon then
+                part.Material = material
+                printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." | has been solidified")
+            end
+        end
+        local function purgeMesh(part)
+            for i, _ in pairs(blacklistMeshIDs) do
+                if not table.find(blacklistMeshIDs, part.MeshId) and part.MeshId ~= "" then
+                    part.MeshId = "rbxassetid://"
+                    printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." | removed MeshId")
                 end
             end
         end
+        local function purgeTexture(part, prop)
+            if part[prop] ~= "" then
+                part[prop] = ""
+                printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." ".."| removed "..prop)
+            end
+        end
+
         if v:IsA("Decal") or v:IsA("Texture") then
-            if remove_tex then
-                local function purge()
-                    v:Destroy()
-                    if debug then
-                        print(scriptName, v.ClassName .. " | " .. v.Name, "| has been destroyed")
-                    end
-                end
+            if removeTexture then
                 if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
                     if faceless ~= true then
                         if v.Parent.Name ~= "Shine" and v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Head" then
-                        --[[v.Name ~= "Eyes" and v.Name ~= "Mouth" and v.Name ~= "EyeBrows" and v.Name ~= "EyeShine" and]]
-                            purge()
+                            purge(v)
                         end
                     else
-                        purge()
+                        purge(v)
                     end
                 end
             end
         elseif v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("WedgePart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
-            if change_mat then
-                applyMat()
+            if changeMaterial then
+                applyMaterial(v)
             end
         elseif v:IsA("MeshPart") then
-            if remove_tex then
-                if v.TextureID ~= "" then
-                    v.TextureID = ""
-                    if debug then
-                        print(scriptName, v.ClassName .. " | " .. v.Name, "| removed TextureID")
-                    end
-                end
+            if removeTexture then
+                purgeTexture(v, "TextureID")
             end
-            if change_mat then
-                applyMat()
+            if changeMaterial then
+                applyMaterial(v)
             end
-            if remove_mesh then
-                if v.MeshId ~= "" then
-                    v.MeshId = "rbxassetid://"
-                    if debug then
-                        print(scriptName, v.ClassName .. " | " .. v.Name, "| removed MeshId")
-                    end
-                end
+            if removeMesh then
+                purgeMesh(v)
             end
-        elseif v:IsA("SpecialMesh") and v.TextureId then
-            if remove_tex then
-                v.TextureId = ""
-
-                if debug then
-                    print(scriptName, v.ClassName .. " | " .. v.Name, "| removed TextureId")
-                end
+        elseif v:IsA("SpecialMesh") then
+            if removeTexture then
+                purgeTexture(v, "TextureId")
             end
-            if remove_mesh then
-                if v.MeshId ~= "" then
-                    v.MeshId = ""
-                    if debug then
-                        print(scriptName, v.ClassName .. " | " .. v.Name, "| removed MeshId")
-                    end
-                end
+            if removeMesh then
+                purgeMesh(v)
             end
         elseif v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
-            if remove_particles then
-                v:Destroy()
+            if removeParticles then
+                purge(v)
             end
         end
     end
     if optimizeLighting then
         for i,v in next, game.Lighting:GetChildren() do
             if v:IsA("Atmosphere") or v:IsA("SunRaysEffect") or v:IsA("DepthOfFieldEffect") then
-                v:Destroy()
-                if debug then
-                    print(scriptName, "Removed: ", v.ClassName)
-                end
+                purge(v)
             end
         end
     end
 end
 
-for i, r in next, workspace:GetChildren() do
-    if exclude_players then
-        if r:IsA("Highlight") and r.Name == "Players" then
+for i, v in next, workspace:GetChildren() do
+    if excludePlayers then
+        if v:IsA("Highlight") and v.Name == "Players" then
             return
         end
     end
-    optimize(r)
+    optimize(v)
 end
 
 local terraria = workspace:FindFirstChild("Terrain")
@@ -136,12 +143,10 @@ print(scriptName, ("Finished cleaning up everything, took %.2f seconds"):format(
 local function chrAdded(character)
     task.wait(4)
     optimize(character)
-    if debug then
-        print(scriptName, "Newly created character has been optimized:", character.Name)
-    end
+    printDebug(scriptName.." Newly created character has been optimized: "..character.Name)
 end
 local function plrAdded(player)
-    if exclude_players then return end
+    if excludePlayers then return end
     player.CharacterAdded:Connect(chrAdded)
     if player.Character then
         chrAdded(player.Character)
