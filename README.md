@@ -27,17 +27,18 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Maks1mDiamond/sbf-scr
 
 ## FPS Optimizer (Loadstring)
 ```lua
-getgenv().exclude_players = true
+getgenv().excludePlayers = true
 getgenv().faceless = false
 
-getgenv().change_mat = true
-getgenv().remove_tex = true
-getgenv().remove_mesh = false
-getgenv().remove_particles = false
-getgenv().mat = Enum.Material.SmoothPlastic
-getgenv().ignoreffmat = true
+getgenv().changeMaterial = true
+getgenv().removeTexture = true
+getgenv().removeMesh = false
+getgenv().removeParticles = false
+getgenv().material = Enum.Material.SmoothPlastic
+getgenv().ignoreForceFieldMaterial = true
 
 getgenv().optimizeLighting = true
 
+getgenv().debug = false
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Maks1mDiamond/sbf-scripts/main/FPS%20Optimizer.lua"))()
 ```
