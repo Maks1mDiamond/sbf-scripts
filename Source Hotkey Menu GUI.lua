@@ -334,7 +334,7 @@ genmenu(
 
 
 genmenu("utools", "radar", "cloudplant", "blal", "Pagoda")
-genmenu("atools", "Infinite Gravity Gun", "Ascensionist", "Immortality Lord", "Normalifyscensionist", "Megaphone", "Lost")
+genmenu("atools", "Infinite Gravity Gun", "ASCENSIONIST", "Immortality Lord", "NORMALIFYSCENSIONIST", "Megaphone", "Lost")
 
 genmenu("options", "Equip after received: false")
 
