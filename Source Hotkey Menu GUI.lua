@@ -15,30 +15,32 @@ gui.Parent = game:GetService("CoreGui")
 --gui.DisplayOrder = 200
 
 -- default config if not using loadstring version
-if openMenuKeybind == nil then
-    adminPerms = false
-    sbfStyle = true
+if config.openMenuKeybind == nil then
+    config = {
+        adminPerms = false,
+        sbfStyle = true,
 
-    bgColor = Color3.fromRGB(0,0,0)
-    textColor = Color3.fromRGB(255,190,0)
-    textFont = Enum.Font.SourceSansBold
-    cornerRadius = 10
+        bgColor = Color3.fromRGB(0,0,0),
+        textColor = Color3.fromRGB(255,190,0),
+        textFont = Enum.Font.SourceSansBold,
+        cornerRadius = 10,
 
-    menuAnimations = true
-    inDelay = 0.3
-    outDelay = 0.2
+        menuAnimations = true,
+        inDelay = 0.3,
+        outDelay = 0.2,
 
-    openMenuKeybind = Enum.KeyCode.C
-    keypad = false
+        openMenuKeybind = Enum.KeyCode.C,
+        keypad = false,
+    }
 end
 
 local db = false -- dont touch
 local equipAfterReceived = false
 
-if menuAnimations then
+if config.menuAnimations then
     twsrv = game:GetService("TweenService")
-    twinfoin = TweenInfo.new(inDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.In)
-    twinfoout = TweenInfo.new(outDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out)
+    twinfoin = TweenInfo.new(config.inDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.In)
+    twinfoout = TweenInfo.new(config.outDelay, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out)
     appearAnim = {}
     disappearAnim = {}
 end
@@ -46,8 +48,8 @@ end
 local kc = Enum.KeyCode
 
 local k0,k1,k2,k3,k4,k5,k6,k7,k8,k9
-if keypad ~= true then
-    k0 = openMenuKeybind
+if config.keypad ~= true then
+    k0 = config.openMenuKeybind
     k1 = kc.One
     k2 = kc.Two
     k3 = kc.Three
@@ -79,7 +81,7 @@ else
 end
 
 local k0_text = k0.Name.." | Go back"
-if keypad then
+if config.keypad then
     k0_text = "0 | Go back"
 end
 
@@ -94,11 +96,11 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
     frame.Size = UDim2.new(0, 250, 0, 400)
 
 
-    frame.BackgroundColor3 = bgColor
+    frame.BackgroundColor3 = config.bgColor
     frame.BorderSizePixel = 0
     --frame.ClipsDescendants = true
 
-    if sbfStyle then
+    if config.sbfStyle then
         local img = Instance.new("ImageLabel")
         img.Parent = frame
         img.AnchorPoint = Vector2.new(0.5,0.5)
@@ -112,7 +114,7 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
 
         img.BackgroundTransparency = 1
         frame.BackgroundTransparency = 1
-        if menuAnimations then
+        if config.menuAnimations then
             img.ImageTransparency = 1
             table.insert(appearAnim, twsrv:Create(img, twinfoout, { ImageTransparency = 0.5 }))
             table.insert(disappearAnim, twsrv:Create(img, twinfoin, { ImageTransparency = 1 }))
@@ -120,14 +122,14 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
             img.ImageTransparency = 0.5
         end
     else
-        if cornerRadius >= 1 then
+        if config.cornerRadius >= 1 then
             local uicorner = Instance.new("UICorner")
             uicorner.Parent = frame
-            uicorner.CornerRadius = UDim.new(0,cornerRadius)
+            uicorner.CornerRadius = UDim.new(0, config.cornerRadius)
         end
 
         frame.BackgroundTransparency = 0.5
-        if menuAnimations then
+        if config.menuAnimations then
             frame.BackgroundTransparency = 1
             table.insert(appearAnim, twsrv:Create(frame, twinfoout, { BackgroundTransparency = 0.5 }))
             table.insert(disappearAnim, twsrv:Create(frame, twinfoin, { BackgroundTransparency = 1 }))
@@ -152,23 +154,23 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
             text.Text = k0_text
         end
 
-        if sbfStyle then
+        if config.sbfStyle then
             text.Font = Enum.Font.Fantasy
             text.TextSize = 20
-            textColor = Color3.new(1, 1, 1)
+            config.textColor = Color3.new(1, 1, 1)
         else
-            text.Font = textFont
+            text.Font = config.textFont
             text.TextSize = 20
         end
 
-        text.TextColor3 = textColor
+        text.TextColor3 = config.textColor
         text.TextWrapped = true
         text.TextXAlignment = Enum.TextXAlignment.Left
 
         text.BackgroundTransparency = 1
         text.BorderSizePixel = 0
 
-        if menuAnimations then
+        if config.menuAnimations then
             text.TextTransparency = 1
             table.insert(appearAnim, twsrv:Create(text, twinfoout, { TextTransparency = 0 }))
             table.insert(disappearAnim, twsrv:Create(text, twinfoin, { TextTransparency = 1 }))
@@ -189,7 +191,7 @@ local function genmenu(menu_type,t1,t2,t3,t4,t5,t6,t7,t8,t9)
     gentext("t0", ySize*9, "exit")
 end
 
-if adminPerms then
+if config.adminPerms then
     genmenu(
         "main",
         "Regular Tools",
@@ -360,13 +362,13 @@ local function tweenDisappear()
     end
 end
 local function tweenAnim(v)
-    if menuAnimations then
+    if config.menuAnimations then
         if v then
             tweenAppear()
-            task.wait(outDelay)
+            task.wait(config.outDelay)
         else
             tweenDisappear()
-            task.wait(inDelay)
+            task.wait(config.inDelay)
         end
     end
 end
@@ -377,7 +379,7 @@ local cBackpack = false
 local function toggleMainMenu(v)
     if v then
         if db then return end
-        if keypad ~= true then
+        if config.keypad ~= true then
             if strgui:GetCoreGuiEnabled(Enum.CoreGuiType.Backpack) then
                 strgui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
                 cBackpack = true
@@ -518,7 +520,7 @@ local function utoolsMenu()
     fAppear()
 end
 local function atoolsMenu()
-    if adminPerms ~= true then return end
+    if config.adminPerms ~= true then return end
     fDisappear()
     gui.main.Visible = false
     gui.atools.Visible = true
@@ -631,7 +633,7 @@ local function equippedCountFunction(createText)
         text.ZIndex = 10
 
         text.Font = Enum.Font.Gotham
-        text.TextColor3 = textColor
+        text.TextColor3 = config.textColor
         text.TextTransparency = 1
         text.TextScaled = true
         text.TextWrapped = true
@@ -668,7 +670,7 @@ equippedCountFunction(true)
 -- HOTKEYS
 local itemGiversFolder = game.Workspace.ItemGivers
 local function itemGiver(item, var)
-    if adminPerms then
+    if config.adminPerms then
         reps.Req:InvokeServer("RunCommand", "give "..plr.Name.." "..item)
     else
         if item == "PoolNoodle" then
@@ -968,7 +970,7 @@ local function hotkeyGiver(v)
         if v == k1 then
             if equipAfterReceived then
                 equipAfterReceived = false
-                gui.options["1"].TextColor3 = textColor
+                gui.options["1"].TextColor3 = config.textColor
                 gui.options["1"].Text = "1 | Equip after received: false"
             else
                 equipAfterReceived = true
