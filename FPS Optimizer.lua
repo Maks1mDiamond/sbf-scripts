@@ -2,21 +2,23 @@ local plr = game.Players
 --local locplr = plr.LocalPlayer
 local scriptName = "[Maks's FPS Optimizer]"
 
-if changeMaterial == nil then
-    excludePlayers = false
-    --local exclude_localplayer = true
-    faceless = false
+if config.changeMaterial == nil then
+    config = {
+        excludePlayers = false,
+        --local exclude_localplayer = true
+        faceless = false,
 
-    changeMaterial = true
-    removeTexture = true
-    removeMesh = false
-    removeParticles = false
-    material = Enum.Material.SmoothPlastic
-    ignoreForceFieldMaterial = true
+        changeMaterial = true,
+        removeTexture = true,
+        removeMesh = false,
+        removeParticles = false,
+        material = Enum.Material.SmoothPlastic,
+        ignoreForceFieldMaterial = true,
 
-    optimizeLighting = false
+        optimizeLighting = false,
 
-    debug = false
+        debug = false
+    }
 end
 
 local blacklistMeshIDs = {
@@ -48,13 +50,13 @@ local function optimize(a)
 
     for _, v in next, a:GetDescendants() do
         local function applyMaterial(part)
-            if ignoreForceFieldMaterial then
-                if part.Material ~= Enum.Material.ForceField and part.Material ~= material and part.Material ~= Enum.Material.Neon then
-                    part.Material = material
+            if config.ignoreForceFieldMaterial then
+                if part.Material ~= Enum.Material.ForceField and part.Material ~= config.material and part.Material ~= Enum.Material.Neon then
+                    part.Material = config.material
                     printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." | has been solidified")
                 end
-            elseif part.Material ~= material and part.Material ~= Enum.Material.Neon then
-                part.Material = material
+            elseif part.Material ~= config.material and part.Material ~= Enum.Material.Neon then
+                part.Material = config.material
                 printDebug(scriptName.." "..part.ClassName.." | "..part.Name.." | has been solidified")
             end
         end
@@ -74,9 +76,9 @@ local function optimize(a)
         end
 
         if v:IsA("Decal") or v:IsA("Texture") then
-            if removeTexture then
+            if config.removeTexture then
                 if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
-                    if faceless ~= true then
+                    if config.faceless ~= true then
                         if v.Parent.Name ~= "Shine" and v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Head" then
                             purge(v)
                         end
@@ -86,33 +88,33 @@ local function optimize(a)
                 end
             end
         elseif v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("WedgePart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
-            if changeMaterial then
+            if config.changeMaterial then
                 applyMaterial(v)
             end
         elseif v:IsA("MeshPart") then
-            if removeTexture then
+            if config.removeTexture then
                 purgeTexture(v, "TextureID")
             end
-            if changeMaterial then
+            if config.changeMaterial then
                 applyMaterial(v)
             end
-            if removeMesh then
+            if config.removeMesh then
                 purgeMesh(v)
             end
         elseif v:IsA("SpecialMesh") then
-            if removeTexture then
+            if config.removeTexture then
                 purgeTexture(v, "TextureId")
             end
-            if removeMesh then
+            if config.removeMesh then
                 purgeMesh(v)
             end
         elseif v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
-            if removeParticles then
+            if config.removeParticles then
                 purge(v)
             end
         end
     end
-    if optimizeLighting then
+    if config.optimizeLighting then
         for i,v in next, game.Lighting:GetChildren() do
             if v:IsA("Atmosphere") or v:IsA("SunRaysEffect") or v:IsA("DepthOfFieldEffect") then
                 purge(v)
@@ -122,7 +124,7 @@ local function optimize(a)
 end
 
 for i, v in next, workspace:GetChildren() do
-    if excludePlayers then
+    if config.excludePlayers then
         if v:IsA("Highlight") and v.Name == "Players" then
             return
         end
@@ -146,7 +148,7 @@ local function chrAdded(character)
     printDebug(scriptName.." Newly created character has been optimized: "..character.Name)
 end
 local function plrAdded(player)
-    if excludePlayers then return end
+    if config.excludePlayers then return end
     player.CharacterAdded:Connect(chrAdded)
     if player.Character then
         chrAdded(player.Character)
