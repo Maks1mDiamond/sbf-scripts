@@ -36,7 +36,7 @@ local blacklistTextures = {
 }
 
 local function printDebug(text)
-    if debug then
+    if config.debug then
         print(text)
     end
 end
