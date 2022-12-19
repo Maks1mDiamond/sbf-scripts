@@ -25,7 +25,7 @@ if config.openMenuKeybind == nil then
         textFont = Enum.Font.SourceSansBold,
         cornerRadius = 10,
 
-        menuAnimations = true,
+        menuAnimations = false,
         inDelay = 0.3,
         outDelay = 0.2,
 
