@@ -78,7 +78,7 @@ local function optimize(a)
         if v:IsA("Decal") or v:IsA("Texture") then
             if config.removeTexture then
                 if v.Texture ~= "http://www.roblox.com/asset/?id=6239942134" and v.Texture ~= "rbxassetid://6239942134" and v.Texture ~= "6239942134" then
-                    if config.faceless ~= true then
+                    if config.faceless ~= true and v.Parent then
                         if v.Parent.Name ~= "Shine" and v.Parent.Name ~= "EyeShinePart" and v.Parent.Name ~= "Head" then
                             purge(v)
                         end
